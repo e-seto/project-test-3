@@ -10,6 +10,9 @@ Credit Card Transactions Fraud Detection Project
 | Elizabeth Seto | lseto1@ualberta.ca  |
 | Reuben John | rjjohn1@ualberta.ca  |
 
+Trello:
+https://trello.com/b/DfKrhMQI/intd-491-credit-card-fraudulent
+
 Google Docs:
 https://docs.google.com/document/d/1UXUUHw-BwKlK2hhJHYG3vgFuDvgmFvdMPgCbW6jjTPA/edit?usp=sharing 
 
