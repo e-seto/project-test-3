@@ -1,0 +1,75 @@
+# ==============================
+# Python
+# ==============================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# ==============================
+# Jupyter
+# ==============================
+.ipynb_checkpoints/
+
+# ==============================
+# Data files (VERY IMPORTANT)
+# ==============================
+# Raw or cleaned datasets
+data/
+cleaned_data_files/
+*.csv
+*.xlsx
+*.parquet
+*.feather
+*.pkl
+*.joblib
+*.h5
+
+# If you want to keep small example CSVs, remove *.csv above
+# and instead ignore specific large folders only
+
+# ==============================
+# Model artifacts
+# ==============================
+models/
+checkpoints/
+*.pt
+*.pth
+*.onnx
+*.sav
+
+# ==============================
+# Logs
+# ==============================
+logs/
+*.log
+
+# ==============================
+# Environment / secrets
+# ==============================
+.env
+.env.*
+*.env
+
+# ==============================
+# VS Code
+# ==============================
+.vscode/
+
+# ==============================
+# OS files
+# ==============================
+.DS_Store
+Thumbs.db
+
+# ==============================
+# Build / packaging
+# ==============================
+build/
+dist/
+*.egg-info/
