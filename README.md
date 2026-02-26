@@ -13,9 +13,6 @@ Credit Card Transactions Fraud Detection Project
 Trello:
 https://trello.com/b/DfKrhMQI/intd-491-credit-card-fraudulent
 
-Google Docs:
-https://docs.google.com/document/d/1UXUUHw-BwKlK2hhJHYG3vgFuDvgmFvdMPgCbW6jjTPA/edit?usp=sharing 
-
 Dataset:
 https://github.com/namebrandon/Sparkov_Data_Generation 
 
