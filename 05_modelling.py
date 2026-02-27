@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import time
+import joblib
+import os
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
 from xgboost import XGBClassifier
@@ -23,6 +25,10 @@ print(f"Train: {X_train.shape}  |  Fraud in train: {y_train.sum():,} ({y_train.m
 print(f"Test:  {X_test.shape}   |  Fraud in test:  {y_test.sum():,}  ({y_test.mean()*100:.4f}%)")
 print(f"Features: {list(X_train.columns)}\n")
 
+# ── Create models folder ──────────────────────────────────────────────────────
+os.makedirs("saved_models", exist_ok=True)
+print("Models will be saved to: ./saved_models/\n")
+
 # ── 1. Define models ──────────────────────────────────────────────────────────
 models = {
     "Random Forest": RandomForestClassifier(
@@ -31,7 +37,7 @@ models = {
         min_samples_leaf=5,
         class_weight="balanced",
         random_state=42,
-        n_jobs=-1           # use all CPU cores
+        n_jobs=-1
     ),
     "XGBoost": XGBClassifier(
         n_estimators=200,
@@ -39,7 +45,7 @@ models = {
         learning_rate=0.1,
         subsample=0.8,
         colsample_bytree=0.8,
-        scale_pos_weight=1,  # already balanced via undersampling
+        scale_pos_weight=1,
         eval_metric="logloss",
         random_state=42,
         n_jobs=-1,
@@ -53,7 +59,14 @@ models = {
     ),
 }
 
-# ── 2. Train & evaluate each model ───────────────────────────────────────────
+# ── Model save filenames ──────────────────────────────────────────────────────
+save_paths = {
+    "Random Forest": "saved_models/random_forest.joblib",
+    "XGBoost":       "saved_models/xgboost.joblib",
+    "AdaBoost":      "saved_models/adaboost.joblib",
+}
+
+# ── 2. Train, evaluate, and save each model ───────────────────────────────────
 results = {}
 
 for name, model in models.items():
@@ -66,6 +79,10 @@ for name, model in models.items():
     model.fit(X_train, y_train)
     train_time = time.time() - start
     print(f"Training time: {train_time:.1f}s")
+
+    # Save model to disk
+    joblib.dump(model, save_paths[name])
+    print(f"Saved to: {save_paths[name]}")
 
     # Predict
     y_pred       = model.predict(X_test)
@@ -106,10 +123,10 @@ print("MODEL COMPARISON SUMMARY")
 print("=" * 60)
 summary = pd.DataFrame({
     name: {
-        "AUC-ROC":    round(r["auc"], 4),
-        "Recall":     round(r["recall"], 4),
-        "Precision":  round(r["precision"], 4),
-        "F1-Score":   round(r["f1"], 4),
+        "AUC-ROC":             round(r["auc"], 4),
+        "Recall":              round(r["recall"], 4),
+        "Precision":           round(r["precision"], 4),
+        "F1-Score":            round(r["f1"], 4),
         "TP (fraud caught)":   r["tp"],
         "FP (false alarms)":   r["fp"],
         "FN (missed fraud)":   r["fn"],
@@ -122,10 +139,9 @@ print(summary.to_string())
 
 best_model_name = summary["F1-Score"].astype(float).idxmax()
 print(f"\nBest model by F1-Score: {best_model_name}")
-best_model_name_auc = summary["AUC-ROC"].astype(float).idxmax()
-print(f"Best model by AUC-ROC:  {best_model_name_auc}")
+print(f"Best model by AUC-ROC:  {summary['AUC-ROC'].astype(float).idxmax()}")
 
-# ── 4. Confusion matrix plots ────────────────────────────────────────────────
+# ── 4. Confusion matrix plots ─────────────────────────────────────────────────
 fig, axes = plt.subplots(1, 3, figsize=(18, 5))
 fig.suptitle("Confusion Matrices (Test Set)", fontsize=15, fontweight="bold")
 
@@ -151,7 +167,7 @@ for (name, r), color in zip(results.items(), colors):
     fpr, tpr, _ = roc_curve(y_test, r["y_proba"])
     ax.plot(fpr, tpr, label=f"{name} (AUC={r['auc']:.4f})", color=color, lw=2)
 
-ax.plot([0, 1], [0, 1], "k--", lw=1, label="Random Baseline")
+ax.plot([0,1], [0,1], "k--", lw=1, label="Random Baseline")
 ax.set_xlabel("False Positive Rate")
 ax.set_ylabel("True Positive Rate (Recall)")
 ax.set_title("ROC Curve Comparison", fontsize=14, fontweight="bold")
@@ -182,4 +198,15 @@ if hasattr(best, "feature_importances_"):
     print(f"\nFeature importances ({best_model_name}):")
     print(fi.round(4).to_string())
 
+# ── 7. Confirm saved models ───────────────────────────────────────────────────
+print("\n" + "=" * 60)
+print("SAVED MODELS")
+print("=" * 60)
+for name, path in save_paths.items():
+    size_mb = os.path.getsize(path) / (1024 * 1024)
+    print(f"  {name:20s} → {path}  ({size_mb:.1f} MB)")
+
+print("\nTo load a model in any future script:")
+print("  import joblib")
+print("  model = joblib.load('saved_models/xgboost.joblib')")
 print("\nModelling complete.")
