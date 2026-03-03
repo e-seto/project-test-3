@@ -11,11 +11,11 @@ warnings.filterwarnings("ignore")
 
 # ── 0. Load data & saved XGBoost model ───────────────────────────────────────
 print("Loading data...")
-X_test = pd.read_csv("X_test.csv")
-y_test = pd.read_csv("y_test.csv").squeeze()
+X_test = pd.read_csv("data/processed/X_test.csv")
+y_test = pd.read_csv("data/processed/y_test.csv").squeeze()
 
 print("Loading saved XGBoost model...")
-model  = joblib.load("saved_models/xgboost.joblib")
+model  = joblib.load("models/xgboost.joblib")
 y_proba = model.predict_proba(X_test)[:, 1]
 print(f"AUC-ROC: {roc_auc_score(y_test, y_proba):.4f}\n")
 
@@ -95,7 +95,7 @@ ax.set_title("Precision / Recall / F1 vs Threshold", fontsize=14, fontweight="bo
 ax.legend(loc="upper right")
 ax.set_xlim(0, 1); ax.set_ylim(0, 1.05)
 plt.tight_layout()
-plt.savefig("plot8_threshold_metrics.png", dpi=150, bbox_inches="tight")
+plt.savefig("plots/plot8_threshold_metrics.png", dpi=150, bbox_inches="tight")
 plt.show()
 print("\nSaved plot8_threshold_metrics.png")
 
@@ -119,7 +119,7 @@ for t, color in [(0.50, "#888888"), (best_f1_threshold, "#2ca02c"),
     ax1.axvline(x=t, linestyle="--", color=color, alpha=0.5, lw=1.2)
 
 plt.tight_layout()
-plt.savefig("plot9_tp_fp_vs_threshold.png", dpi=150, bbox_inches="tight")
+plt.savefig("plots/plot9_tp_fp_vs_threshold.png", dpi=150, bbox_inches="tight")
 plt.show()
 print("Saved plot9_tp_fp_vs_threshold.png")
 

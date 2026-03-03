@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
 # ── 0. Load all CSVs ──────────────────────────────────────────────────────────
-DATA_ROOT = "cleaned_data_files"  # change if needed
+DATA_ROOT = "data/raw"
 
 all_files = glob.glob(os.path.join(DATA_ROOT, "**", "*.csv"), recursive=True)
 print(f"Found {len(all_files)} CSV files")
@@ -115,10 +115,10 @@ for col in X_train_bal.columns:
     print(f"  {col}")
 
 # ── 7. Save preprocessed splits ──────────────────────────────────────────────
-X_train_bal.to_csv("X_train.csv", index=False)
-y_train_bal.to_csv("y_train.csv", index=False)
-X_test.to_csv("X_test.csv",   index=False)
-y_test.to_csv("y_test.csv",   index=False)
+X_train_bal.to_csv("data/processed/X_train.csv", index=False)
+y_train_bal.to_csv("data/processed/y_train.csv", index=False)
+X_test.to_csv("data/processed/X_test.csv",   index=False)
+y_test.to_csv("data/processed/y_test.csv",   index=False)
 
 print(f"\nSaved:")
 print(f"  X_train.csv  {X_train_bal.shape}")

@@ -16,17 +16,17 @@ warnings.filterwarnings("ignore")
 
 # ── 0. Load preprocessed splits ──────────────────────────────────────────────
 print("Loading preprocessed data...")
-X_train = pd.read_csv("X_train.csv")
-y_train = pd.read_csv("y_train.csv").squeeze()
-X_test  = pd.read_csv("X_test.csv")
-y_test  = pd.read_csv("y_test.csv").squeeze()
+X_train = pd.read_csv("data/processed/X_train.csv")
+y_train = pd.read_csv("data/processed/y_train.csv").squeeze()
+X_test  = pd.read_csv("data/processed/X_test.csv")
+y_test  = pd.read_csv("data/processed/y_test.csv").squeeze()
 
 print(f"Train: {X_train.shape}  |  Fraud in train: {y_train.sum():,} ({y_train.mean()*100:.1f}%)")
 print(f"Test:  {X_test.shape}   |  Fraud in test:  {y_test.sum():,}  ({y_test.mean()*100:.4f}%)")
 print(f"Features: {list(X_train.columns)}\n")
 
 # ── Create models folder ──────────────────────────────────────────────────────
-os.makedirs("saved_models", exist_ok=True)
+os.makedirs("models", exist_ok=True)
 print("Models will be saved to: ./saved_models/\n")
 
 # ── 1. Define models ──────────────────────────────────────────────────────────
@@ -61,9 +61,9 @@ models = {
 
 # ── Model save filenames ──────────────────────────────────────────────────────
 save_paths = {
-    "Random Forest": "saved_models/random_forest.joblib",
-    "XGBoost":       "saved_models/xgboost.joblib",
-    "AdaBoost":      "saved_models/adaboost.joblib",
+    "Random Forest": "models/random_forest.joblib",
+    "XGBoost":       "models/xgboost.joblib",
+    "AdaBoost":      "models/adaboost.joblib",
 }
 
 # ── 2. Train, evaluate, and save each model ───────────────────────────────────
@@ -153,7 +153,7 @@ for ax, (name, r) in zip(axes, results.items()):
     ax.set_title(f"{name}\nAUC={r['auc']:.4f}  F1={r['f1']:.4f}")
 
 plt.tight_layout()
-plt.savefig("plot5_confusion_matrices.png", dpi=150, bbox_inches="tight")
+plt.savefig("plots/plot5_confusion_matrices.png", dpi=150, bbox_inches="tight")
 plt.show()
 print("Saved plot5_confusion_matrices.png")
 
@@ -173,7 +173,7 @@ ax.set_ylabel("True Positive Rate (Recall)")
 ax.set_title("ROC Curve Comparison", fontsize=14, fontweight="bold")
 ax.legend(loc="lower right")
 plt.tight_layout()
-plt.savefig("plot6_roc_curves.png", dpi=150, bbox_inches="tight")
+plt.savefig("plots/plot6_roc_curves.png", dpi=150, bbox_inches="tight")
 plt.show()
 print("Saved plot6_roc_curves.png")
 
@@ -191,7 +191,7 @@ if hasattr(best, "feature_importances_"):
     ax.set_ylabel("Importance Score")
     ax.tick_params(axis="x", rotation=45)
     plt.tight_layout()
-    plt.savefig("plot7_feature_importance.png", dpi=150, bbox_inches="tight")
+    plt.savefig("plots/plot7_feature_importance.png", dpi=150, bbox_inches="tight")
     plt.show()
     print("Saved plot7_feature_importance.png")
 
@@ -208,5 +208,5 @@ for name, path in save_paths.items():
 
 print("\nTo load a model in any future script:")
 print("  import joblib")
-print("  model = joblib.load('saved_models/xgboost.joblib')")
+print("  model = joblib.load('models/xgboost.joblib')")
 print("\nModelling complete.")

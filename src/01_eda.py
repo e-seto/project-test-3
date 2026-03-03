@@ -3,7 +3,7 @@ import glob
 import pandas as pd
 
 # ── 1. Load all CSVs from the cleaned_data_files folder ──────────────────────
-DATA_ROOT = "cleaned_data_files"  # change this path if needed
+DATA_ROOT = "data/raw"
 
 all_files = glob.glob(os.path.join(DATA_ROOT, "**", "*.csv"), recursive=True)
 print(f"Found {len(all_files)} CSV files\n")
@@ -52,7 +52,7 @@ print("FRAUD / LEGITIMATE CLASS BALANCE")
 print("=" * 60)
 counts = data["is_fraud"].value_counts()
 pcts   = data["is_fraud"].value_counts(normalize=True) * 100
-
+print(counts.to_string())
 balance = pd.DataFrame({
     "Label":   ["Legitimate (0)", "Fraud (1)"],
     "Count":   [counts.get(0, 0), counts.get(1, 0)],
@@ -72,7 +72,6 @@ group_balance = (
         Fraud_Count="sum",
     )
     .assign(Fraud_Rate_Pct=lambda x: (x["Fraud_Count"] / x["Total"] * 100).round(4))
-    .sort_index()
 )
 print(group_balance.to_string())
 print()

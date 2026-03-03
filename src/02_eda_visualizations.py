@@ -6,7 +6,7 @@ import matplotlib.gridspec as gridspec
 import seaborn as sns
 
 # ── 0. Load all CSVs ──────────────────────────────────────────────────────────
-DATA_ROOT = "cleaned_data_files"  # change if needed
+DATA_ROOT = "data/raw"
 
 all_files = glob.glob(os.path.join(DATA_ROOT, "**", "*.csv"), recursive=True)
 dfs = []
@@ -80,7 +80,7 @@ axes[1].set_ylabel("Fraud Rate (%)")
 axes[1].tick_params(axis="x", rotation=30)
 
 plt.tight_layout()
-plt.savefig("plot1_fraud_by_time.png", dpi=150, bbox_inches="tight")
+plt.savefig("plots/plot1_fraud_by_time.png", dpi=150, bbox_inches="tight")
 plt.show()
 print("Saved plot1_fraud_by_time.png")
 
@@ -105,7 +105,7 @@ ax.set_xlabel("Merchant Category")
 ax.set_ylabel("Fraud Rate (%)")
 ax.tick_params(axis="x", rotation=45)
 plt.tight_layout()
-plt.savefig("plot2_fraud_by_category.png", dpi=150, bbox_inches="tight")
+plt.savefig("plots/plot2_fraud_by_category.png", dpi=150, bbox_inches="tight")
 plt.show()
 print("Saved plot2_fraud_by_category.png")
 
@@ -147,7 +147,7 @@ print("\nAmount summary stats:")
 print(data.groupby("is_fraud")["amt"].describe().round(2))
 
 plt.tight_layout()
-plt.savefig("plot3_amount_distribution.png", dpi=150, bbox_inches="tight")
+plt.savefig("plots/plot3_amount_distribution.png", dpi=150, bbox_inches="tight")
 plt.show()
 print("Saved plot3_amount_distribution.png")
 
@@ -170,7 +170,7 @@ ax.set_title("Fraud Rate by Age Group", fontsize=15, fontweight="bold")
 ax.set_xlabel("Age Group")
 ax.set_ylabel("Fraud Rate (%)")
 plt.tight_layout()
-plt.savefig("plot4a_fraud_by_age.png", dpi=150, bbox_inches="tight")
+plt.savefig("plots/plot4a_fraud_by_age.png", dpi=150, bbox_inches="tight")
 plt.show()
 print("Saved plot4a_fraud_by_age.png")
 
@@ -195,7 +195,7 @@ ax.set_title("Top 20 Jobs by Fraud Rate (min 50 transactions)", fontsize=15, fon
 ax.set_xlabel("Fraud Rate (%)")
 ax.set_ylabel("Job Title")
 plt.tight_layout()
-plt.savefig("plot4b_fraud_by_job.png", dpi=150, bbox_inches="tight")
+plt.savefig("plots/plot4b_fraud_by_job.png", dpi=150, bbox_inches="tight")
 plt.show()
 print("Saved plot4b_fraud_by_job.png")
 

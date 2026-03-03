@@ -58,7 +58,7 @@ def preprocess_csv(input_path, output_path):
     return df
 
 if __name__ == "__main__":
-    input_file = "/Users/gurkeeratkakar/Downloads/young_adults_male_urban_400-599.csv"
-    output_file = "/Users/gurkeeratkakar/Downloads/young_adults_male_urban_400-599_clean.csv"
+    input_file = "path/to/raw_transactions.csv"
+    output_file = "data/raw/cleaned_output.csv"
 
     preprocess_csv(input_file, output_file)

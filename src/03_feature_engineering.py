@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 # ── 0. Load all CSVs ──────────────────────────────────────────────────────────
-DATA_ROOT = "cleaned_data_files"  # change if needed
+DATA_ROOT = "data/raw"
 
 all_files = glob.glob(os.path.join(DATA_ROOT, "**", "*.csv"), recursive=True)
 print(f"Found {len(all_files)} CSV files")
@@ -77,7 +77,7 @@ print(data[["haversine_dist_km", "hour", "day_of_week",
             "amt_deviation_zscore"]].isnull().sum().to_string())
 
 # ── Save enriched dataset ─────────────────────────────────────────────────────
-output_path = "data_engineered.csv"
+output_path = "data/processed/data_engineered.csv"
 data.to_csv(output_path, index=False)
 print(f"\nEnriched dataset saved to: {output_path}")
 print(f"Final shape: {data.shape}")

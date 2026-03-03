@@ -21,7 +21,6 @@ ENV/
 # ==============================
 # Raw or cleaned datasets
 data/
-cleaned_data_files/
 *.csv
 *.xlsx
 *.parquet
@@ -74,7 +73,8 @@ build/
 dist/
 *.egg-info/
 
-# Ignore image files
+# Plots / generated images
+plots/
 *.jpg
 *.jpeg
 *.png

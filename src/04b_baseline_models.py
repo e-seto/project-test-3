@@ -15,19 +15,19 @@ warnings.filterwarnings("ignore")
 
 # ── 0. Load data ──────────────────────────────────────────────────────────────
 print("Loading data...")
-X_train = pd.read_csv("X_train.csv")
-y_train = pd.read_csv("y_train.csv").squeeze()
-X_test  = pd.read_csv("X_test.csv")
-y_test  = pd.read_csv("y_test.csv").squeeze()
+X_train = pd.read_csv("data/processed/X_train.csv")
+y_train = pd.read_csv("data/processed/y_train.csv").squeeze()
+X_test  = pd.read_csv("data/processed/X_test.csv")
+y_test  = pd.read_csv("data/processed/y_test.csv").squeeze()
 
 print(f"Train: {X_train.shape}  |  Test: {X_test.shape}")
 print(f"Fraud in test: {y_test.sum():,} ({y_test.mean()*100:.4f}%)\n")
 
 # ── Load pre-trained ensemble models (no retraining needed) ──────────────────
 print("Loading saved ensemble models...")
-rf  = joblib.load("saved_models/random_forest.joblib")
-xgb = joblib.load("saved_models/xgboost.joblib")
-ada = joblib.load("saved_models/adaboost.joblib")
+rf  = joblib.load("models/random_forest.joblib")
+xgb = joblib.load("models/xgboost.joblib")
+ada = joblib.load("models/adaboost.joblib")
 print("All models loaded.\n")
 
 # ── 1. Helper function ────────────────────────────────────────────────────────
@@ -154,7 +154,7 @@ ax.set_ylabel("True Positive Rate (Recall)", fontsize=12)
 ax.set_title("ROC Curve — All Models vs Baselines", fontsize=14, fontweight="bold")
 ax.legend(loc="lower right", fontsize=9)
 plt.tight_layout()
-plt.savefig("plot10_roc_all_models.png", dpi=150, bbox_inches="tight")
+plt.savefig("plots/plot10_roc_all_models.png", dpi=150, bbox_inches="tight")
 plt.show()
 print("\nSaved plot10_roc_all_models.png")
 
@@ -177,7 +177,7 @@ ax.set_title("F1-Score Comparison — Baselines vs Ensemble Models",
 ax.set_ylim(0, 1.0)
 ax.axhline(y=lr_f1, color="#ff7f0e", linestyle="--", alpha=0.5, label="LR baseline")
 plt.tight_layout()
-plt.savefig("plot11_f1_comparison.png", dpi=150, bbox_inches="tight")
+plt.savefig("plots/plot11_f1_comparison.png", dpi=150, bbox_inches="tight")
 plt.show()
 print("Saved plot11_f1_comparison.png")
 
