@@ -1,0 +1,18 @@
+# Activate your virtual environment first
+.venv\Scripts\activate
+
+# Then run scripts in order:
+python src/01_eda.py
+python src/02_eda_visualizations.py
+python src/03_feature_engineering.py
+python src/04_preprocessing.py
+python src/05_modelling.py
+python src/04b_baseline_models.py   # needs 05 to run first (loads saved models)
+python src/05b_threshold_tuning.py  # needs 05 to run first
+Key things to remember:
+
+Always run from the project root (capstone 491/project/), not from inside src/ — otherwise the data/, models/, plots/ paths won't resolve
+Run in order — each script depends on outputs from the previous one:
+
+01 → 02 → 03 → 04 → 05 → 04b / 05b
+04b and 05b both load models saved by 05, so 05 must run before them
