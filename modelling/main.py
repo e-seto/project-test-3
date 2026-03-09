@@ -45,7 +45,7 @@ def main():
         X, y, test_size=0.2, random_state=42, stratify=y
     )
 
-    models = build_models(X_train)
+    models = build_models(X_train, y_train)
 
     results = {}
     for name, model in models.items():
