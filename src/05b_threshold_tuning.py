@@ -66,10 +66,10 @@ print("=" * 60)
 for label, idx, t in [
     ("Default (0.50)",         np.argmin(np.abs(thresholds - 0.50)), 0.50),
     ("Best F1",                best_f1_idx,       best_f1_threshold),
-    ("High Recall (≥0.95)",    high_recall_idx,   high_recall_threshold),
-    ("High Precision (≥0.60)", high_prec_idx,     high_prec_threshold),
+    ("High Recall (>=0.95)",    high_recall_idx,   high_recall_threshold),
+    ("High Precision (>=0.60)", high_prec_idx,     high_prec_threshold),
 ]:
-    print(f"\n  {label}  →  threshold = {t:.2f}")
+    print(f"\n  {label}  ->  threshold = {t:.2f}")
     print(f"    Recall:    {recalls[idx]:.4f}  ({int(tps[idx]):,} fraud caught,  {int(fns[idx]):,} missed)")
     print(f"    Precision: {precisions[idx]:.4f}  ({int(fps[idx]):,} false alarms)")
     print(f"    F1-Score:  {f1s[idx]:.4f}")
@@ -144,17 +144,30 @@ print("\n" + "=" * 60)
 print("RECOMMENDED THRESHOLDS FOR PRESCRIPTIVE POLICY")
 print("=" * 60)
 print(f"""
-  BLOCK threshold  →  {high_prec_threshold:.2f}
+  BLOCK threshold  ->  {high_prec_threshold:.2f}
     Auto-decline transactions above this.
-    High confidence fraud — minimizes false alarms on hard blocks.
+    High confidence fraud - minimizes false alarms on hard blocks.
 
-  REVIEW threshold →  {best_f1_threshold:.2f}
+  REVIEW threshold ->  {best_f1_threshold:.2f}
     Send to manual review if between REVIEW and BLOCK thresholds.
-    Balanced catch rate — worth a human look.
+    Balanced catch rate - worth a human look.
 
-  ALLOW threshold  →  below {best_f1_threshold:.2f}
+  ALLOW threshold  ->  below {best_f1_threshold:.2f}
     Auto-approve transactions below this.
-    Low fraud probability — not worth flagging.
-
-  Save these values — you will use them in 06_prescriptive_policy.py
+    Low fraud probability - not worth flagging.
 """)
+
+# ── 7. Save thresholds to file ────────────────────────────────────────────────
+import json, os
+os.makedirs("models", exist_ok=True)
+review_threshold = min(best_f1_threshold, high_prec_threshold)
+block_threshold  = max(best_f1_threshold, high_prec_threshold)
+
+thresholds_out = {
+    "review": round(float(review_threshold), 4),
+    "block":  round(float(block_threshold), 4),
+}
+with open("models/policy_thresholds.json", "w") as f:
+    json.dump(thresholds_out, f, indent=2)
+print("Saved thresholds to models/policy_thresholds.json")
+print(thresholds_out)
