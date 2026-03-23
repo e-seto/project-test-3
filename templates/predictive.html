@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Card Transaction Fraud Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- navigation bar -->
+    <nav class="navbar">
+        <div class="logo">CREDIT CARD FRAUD DETECTION DEMO</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/descriptive">Descriptive</a>
+            <a href="/predictive" class="active">Predictive</a>
+            <a href="/prescriptive">Prescriptive</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- LEFT PANEL -->
+        <div class="panel">
+            <div class="tabs">
+                <div class="tab active-tab" onclick="selectTab(1)">Personal Care Transaction</div>
+                <div class="tab" onclick="selectTab(2)">Online Shopping Transaction</div>
+                <div class="tab" onclick="selectTab(3)">Grocery Transcation</div>
+                <div class="tab" onclick="selectTab(4)">Entertainment Transaction</div>
+            </div>
+
+            <pre id="jsonDisplay"></pre>
+        </div>
+
+        <!-- BUTTON -->
+        <button class="predict-btn" id="predict-btn">PREDICT</button>
+
+        <!-- RIGHT PANEL -->
+        <div class="panel">
+            <div id="prediction-result" class="results">
+                Results will appear here
+            </div>
+        </div>
+
+    <!-- link to external JS file -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
