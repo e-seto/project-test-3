@@ -4,9 +4,9 @@ from pathlib import Path
 
 from sklearn.model_selection import train_test_split
 
-from .features import add_features, load_data
-from .evaluation import evaluate_model, print_feature_importance, threshold_sweep
-from .models import build_models
+from src.features import add_features, load_data
+from src.evaluation import evaluate_model, print_feature_importance, threshold_sweep
+from src.models import build_models
 
 
 def main():
@@ -30,7 +30,7 @@ def main():
     logger = logging.getLogger("modelling")
 
     logger.info("Loading data")
-    df = load_data("cleaned_data_files")
+    df = load_data("data/raw")
     df = add_features(df)
 
     for col in ["trans_datetime", "cc_num"]:

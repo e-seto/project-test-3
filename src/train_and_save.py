@@ -6,13 +6,13 @@ from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
-from modelling.features import add_features, load_data
-from modelling.preprocessing import build_preprocessor
-from modelling.evaluation import threshold_sweep, evaluate_model
+from src.features import add_features, load_data
+from src.preprocessing import build_preprocessor
+from src.evaluation import threshold_sweep, evaluate_model
 
 
 def train():
-    df = load_data("cleaned_data_files")
+    df = load_data("data/raw")
     df = add_features(df)
 
     for col in ["trans_datetime", "cc_num"]:
@@ -67,11 +67,11 @@ def train():
     df_thr = threshold_sweep(y_test, y_proba, label="XGBoost")
 
     # save results
-    with open("thresholds_xgb.json", "w") as f:
+    with open("models/thresholds_xgb.json", "w") as f:
         json.dump(df_thr.to_dict(orient="records"), f, indent=2)
 
     # save full pipeline
-    joblib.dump(xgb, "model.joblib")
+    joblib.dump(xgb, "models/model.joblib")
 
     print("Model saved as model.joblib and threshold saved as threshold.json.")
 

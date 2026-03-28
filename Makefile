@@ -6,5 +6,5 @@ setup:
 	$(PYTHON) -m pip install -r requirements.txt
 
 model:
-	$(PYTHON) -m modelling.main
+	$(PYTHON) -m src.05_main
 

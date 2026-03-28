@@ -3,7 +3,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.tree import DecisionTreeClassifier
 
-from .preprocessing import build_preprocessor
+from src.preprocessing import build_preprocessor
 
 HAS_XGB = False
 try:

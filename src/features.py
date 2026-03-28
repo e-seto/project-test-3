@@ -14,7 +14,7 @@ def haversine_km(lat1, lon1, lat2, lon2):
     return r * c
 
 
-def load_data(data_dir="cleaned_data_files"):
+def load_data(data_dir="data/raw"):
     data_path = Path(data_dir)
     files = list(data_path.rglob("*.csv"))
     if not files:

@@ -10,7 +10,7 @@ from sklearn.pipeline import Pipeline
 app = Flask(__name__)
 
 # load trained pipeline
-model = joblib.load("model.joblib")
+model = joblib.load("models/model.joblib")
 
 # thresholds
 LEGIT_THRESHOLD = 0.60
