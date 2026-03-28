@@ -65,7 +65,7 @@ The data consists of credit card transactions with the following features:
 
 The dataset is generated using the [Sparkov Data Generation](https://github.com/namebrandon/Sparkov_Data_Generation) simulation tool, which simulates realistic fraud scenarios while respecting privacy constraints.
 
-Additionally teh following features were engineered:
+Additionally the following features were engineered:
 
 - `haversine_km`: Distance from the merchant and the cardholder locations.
 - `cust_amt_mean`: Amount the customer spends on average.
