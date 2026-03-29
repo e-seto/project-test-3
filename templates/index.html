@@ -4,29 +4,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Credit Card Transaction Fraud Detection Deployment</title>
+    <title>Credit Card Fraud Detection</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
     <!-- navigation bar -->
     <nav class="navbar">
-        <div class="logo">CREDIT CARD FRAUD DETECTION DEMO</div>
+        <div class="logo">CREDIT CARD FRAUD DETECTION</div>
         <div class="nav-links">
             <a href="/" class="active">Home</a>
             <a href="/descriptive">Descriptive</a>
+            <a href="/diagnostic">Diagnostic</a>
             <a href="/predictive">Predictive</a>
             <a href="/prescriptive">Prescriptive</a>
         </div>
     </nav>
 
+    <div class="page-content">
+        <div class="hero">
+            <h1>Credit Card Transaction Fraud Detection</h1>
+            <p class="subtitle">A data-driven approach to identifying and preventing fraudulent credit card transactions</p>
+        </div>
 
-    <!-- welcome -->
-    <div class="welcome">
-        <h1>Welcome line...</h1>
-        <p>
-            Quick speal on the project overall.
-        </p>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>The Problem</h3>
+                <p>
+                    Credit card fraud costs consumers and financial institutions billions of dollars each year.
+                    As transactions move increasingly online, fraudsters exploit new vulnerabilities, making it
+                    harder for traditional rule-based systems to keep up. Only about <strong>0.55%</strong> of
+                    transactions are fraudulent, but the financial and emotional impact on victims is significant.
+                </p>
+            </div>
+
+            <div class="info-card">
+                <h3>Our Approach</h3>
+                <p>
+                    We analyzed <strong>3.48 million</strong> simulated credit card transactions to build a
+                    machine learning model that can flag suspicious activity in real time. Using XGBoost with
+                    carefully engineered features like transaction amount deviation and time-of-day patterns,
+                    our model achieves high accuracy while minimizing false alarms.
+                </p>
+            </div>
+
+            <div class="info-card">
+                <h3>What You'll Find Here</h3>
+                <ul>
+                    <li><strong>Descriptive</strong> &mdash; explore the data through interactive charts</li>
+                    <li><strong>Diagnostic</strong> &mdash; understand why and how fraud happens</li>
+                    <li><strong>Predictive</strong> &mdash; test our ML model with custom transactions</li>
+                    <li><strong>Prescriptive</strong> &mdash; see our recommended fraud prevention policies</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3>Key Stats</h3>
+                <div class="stat-row"><span class="stat-number">3,478,813</span><span>total transactions analyzed</span></div>
+                <div class="stat-row"><span class="stat-number">19,031</span><span>fraudulent transactions identified</span></div>
+                <div class="stat-row"><span class="stat-number">0.55%</span><span>overall fraud rate</span></div>
+                <div class="stat-row"><span class="stat-number">$538</span><span>average fraud transaction amount</span></div>
+            </div>
+        </div>
+
+        <div class="info-card" style="margin-top: 25px;">
+            <h3>Who Is This For?</h3>
+            <p>
+                This demo is designed for anyone interested in understanding how data science and machine learning
+                can be applied to real-world fraud detection. Whether you're a bank analyst looking at detection
+                strategies, a student learning about classification models, or a consumer curious about how your
+                transactions are protected &mdash; this project walks through the full analytics pipeline from
+                raw data exploration to actionable policy recommendations.
+            </p>
+        </div>
     </div>
 
 </body>

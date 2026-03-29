@@ -157,6 +157,134 @@ pre {
     font-weight: bold;
 }
 
+/* page content wrapper */
+.page-content {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.page-content h1 {
+    margin-bottom: 8px;
+}
+
+.section-description {
+    color: #555;
+    margin-bottom: 25px;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* hero (home page) */
+.hero {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-size: 2em;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #555;
+    font-size: 16px;
+}
+
+/* info grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.info-card {
+    border: 2px solid var(--primary-colour);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.info-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-emphasis-colour);
+}
+
+.info-card ul {
+    padding-left: 20px;
+    line-height: 1.8;
+}
+
+/* stat rows (home page) */
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--neutral-colour);
+}
+
+.stat-number {
+    font-weight: bold;
+    color: var(--accent-colour);
+}
+
+/* chart cards */
+.chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.chart-card {
+    border: 2px solid var(--primary-colour);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.chart-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-emphasis-colour);
+}
+
+.chart-explanation {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* findings grid (diagnostic / prescriptive) */
+.findings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.finding {
+    background: var(--neutral-colour);
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.finding h4 {
+    margin: 0 0 6px;
+    color: var(--primary-emphasis-colour);
+}
+
+.finding p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* policy cards (prescriptive) */
+.policy-card { text-align: center; }
+.safe-border { border-color: #16a34a; }
+.review-border { border-color: #f59e0b; }
+.fraud-border { border-color: #dc2626; }
+
 /* responsive */
 @media (max-width: 900px) {
     .container {
@@ -165,5 +293,11 @@ pre {
 
     .predict-btn {
         width: 100%;
+    }
+
+    .info-grid,
+    .chart-grid,
+    .findings-grid {
+        grid-template-columns: 1fr;
     }
 }

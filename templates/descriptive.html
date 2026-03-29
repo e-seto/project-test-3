@@ -4,60 +4,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Credit Card Transaction Fraud Overview</title>
+    <title>Descriptive Analysis - Credit Card Fraud</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 </head>
 
 <body>
     <!-- navigation bar -->
     <nav class="navbar">
-        <div class="logo">CREDIT CARD FRAUD DETECTION DEMO</div>
+        <div class="logo">CREDIT CARD FRAUD DETECTION</div>
         <div class="nav-links">
             <a href="/">Home</a>
             <a href="/descriptive" class="active">Descriptive</a>
+            <a href="/diagnostic">Diagnostic</a>
             <a href="/predictive">Predictive</a>
             <a href="/prescriptive">Prescriptive</a>
         </div>
     </nav>
 
-    <h1>Exploratory Dashboard</h1>
+    <div class="page-content">
+        <h1>Descriptive Analysis</h1>
+        <p class="section-description">
+            Descriptive analysis answers <strong>"What happened?"</strong> by summarizing the raw data.
+            Below we explore the distribution of fraud across transaction categories and time of day
+            to understand the basic patterns in our dataset of 3.48 million transactions.
+        </p>
 
-    <div class='tableauPlaceholder' id='viz1774306642624' style='position: relative'>
-        <noscript>
-            <a href='#'>
-                <img alt='Exploratory Dashboard ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;IN&#47;INTD491ExploratoryCreditCardFraudDashboard&#47;ExploratoryDashboard&#47;1_rss.png' style='border: none' />
-            </a>
-        </noscript>
-        <object class='tableauViz'  style='display:none;'>
-            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
-            <param name='embed_code_version' value='3' /> 
-            <param name='site_root' value='' />
-            <param name='name' value='INTD491ExploratoryCreditCardFraudDashboard&#47;ExploratoryDashboard' />
-            <param name='tabs' value='no' />
-            <param name='toolbar' value='yes' />
-            <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;IN&#47;INTD491ExploratoryCreditCardFraudDashboard&#47;ExploratoryDashboard&#47;1.png' /> 
-            <param name='animate_transition' value='yes' />
-            <param name='display_static_image' value='yes' />
-            <param name='display_spinner' value='yes' />
-            <param name='display_overlay' value='yes' />
-            <param name='display_count' value='yes' />
-            <param name='language' value='en-US' />
-        </object>
-    </div>                
-    <script type='text/javascript'>                    
-        var divElement = document.getElementById('viz1774306642624');                    
-        var vizElement = divElement.getElementsByTagName('object')[0];                    
-        if ( divElement.offsetWidth > 800 ) { 
-            vizElement.style.width='1200px';vizElement.style.height='827px';
-        } else if ( divElement.offsetWidth > 500 ) { 
-            vizElement.style.width='1200px';vizElement.style.height='827px';
-        } else { 
-            vizElement.style.width='100%';vizElement.style.height='2977px';
-        }                     
-        var scriptElement = document.createElement('script');                    
-        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    
-        vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+        <!-- Plotly Charts -->
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>Fraud Rate by Transaction Category</h3>
+                <div id="chart-category"></div>
+                <p class="chart-explanation">
+                    Online shopping (<strong>shopping_net</strong>) and miscellaneous online transactions
+                    (<strong>misc_net</strong>) have the highest fraud rates at 1.74% and 1.52% respectively.
+                    This makes sense &mdash; online transactions lack physical card verification, making them
+                    easier targets for fraudsters. In-person categories like home and kids/pets have rates
+                    below 0.15%.
+                </p>
+            </div>
+
+            <div class="chart-card">
+                <h3>Fraud Rate by Hour of Day</h3>
+                <div id="chart-hour"></div>
+                <p class="chart-explanation">
+                    Fraud spikes dramatically during late-night hours (10 PM &ndash; 3 AM), peaking at
+                    <strong>2.56%</strong> at 11 PM. During normal business hours (4 AM &ndash; 9 PM),
+                    fraud rates hover around 0.10&ndash;0.15%. This pattern suggests fraudsters operate
+                    when cardholders are asleep and less likely to notice unauthorized charges.
+                </p>
+            </div>
+        </div>
+
+        <!-- Tableau Dashboard -->
+        <div class="chart-card" style="margin-top: 25px;">
+            <h3>Full Exploratory Dashboard (Tableau)</h3>
+            <div class='tableauPlaceholder' id='viz1774306642624' style='position: relative'>
+                <noscript>
+                    <a href='#'>
+                        <img alt='Exploratory Dashboard'
+                            src='https://public.tableau.com/static/images/IN/INTD491ExploratoryCreditCardFraudDashboard/ExploratoryDashboard/1_rss.png'
+                            style='border: none' />
+                    </a>
+                </noscript>
+                <object class='tableauViz' style='display:none;'>
+                    <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                    <param name='embed_code_version' value='3' />
+                    <param name='site_root' value='' />
+                    <param name='name'
+                        value='INTD491ExploratoryCreditCardFraudDashboard/ExploratoryDashboard' />
+                    <param name='tabs' value='no' />
+                    <param name='toolbar' value='yes' />
+                    <param name='static_image'
+                        value='https://public.tableau.com/static/images/IN/INTD491ExploratoryCreditCardFraudDashboard/ExploratoryDashboard/1.png' />
+                    <param name='animate_transition' value='yes' />
+                    <param name='display_static_image' value='yes' />
+                    <param name='display_spinner' value='yes' />
+                    <param name='display_overlay' value='yes' />
+                    <param name='display_count' value='yes' />
+                    <param name='language' value='en-US' />
+                </object>
+            </div>
+            <script type='text/javascript'>
+                var divElement = document.getElementById('viz1774306642624');
+                var vizElement = divElement.getElementsByTagName('object')[0];
+                if (divElement.offsetWidth > 800) {
+                    vizElement.style.width = '1200px'; vizElement.style.height = '827px';
+                } else if (divElement.offsetWidth > 500) {
+                    vizElement.style.width = '1200px'; vizElement.style.height = '827px';
+                } else {
+                    vizElement.style.width = '100%'; vizElement.style.height = '2977px';
+                }
+                var scriptElement = document.createElement('script');
+                scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                vizElement.parentNode.insertBefore(scriptElement, vizElement);
+            </script>
+        </div>
+    </div>
+
+    <script>
+        // Fraud rate by category
+        const categories = ["shopping_net","misc_net","grocery_pos","shopping_pos","gas_transport","travel","misc_pos","entertainment","personal_care","grocery_net","food_dining","health_fitness","home","kids_pets"];
+        const catRates = [1.74, 1.52, 1.35, 0.66, 0.51, 0.29, 0.26, 0.22, 0.20, 0.19, 0.17, 0.16, 0.14, 0.14];
+        const catCounts = [4453, 2414, 4424, 2268, 1537, 317, 586, 564, 503, 286, 448, 351, 441, 439];
+
+        Plotly.newPlot('chart-category', [{
+            x: categories,
+            y: catRates,
+            type: 'bar',
+            marker: { color: catRates.map(r => r > 1.0 ? '#dc2626' : r > 0.4 ? '#f59e0b' : '#42698e') },
+            text: catCounts.map(c => c + ' frauds'),
+            hovertemplate: '%{x}<br>Fraud rate: %{y}%<br>%{text}<extra></extra>'
+        }], {
+            yaxis: { title: 'Fraud Rate (%)', gridcolor: '#e3e8ee' },
+            xaxis: { tickangle: -45 },
+            margin: { b: 120, t: 20 },
+            plot_bgcolor: 'white',
+            height: 400
+        }, { responsive: true });
+
+        // Fraud rate by hour
+        const hours = Array.from({length: 24}, (_, i) => i);
+        const hourRates = [1.55,1.49,1.52,1.56,0.13,0.12,0.11,0.12,0.11,0.11,0.15,0.11,0.10,0.10,0.11,0.11,0.10,0.10,0.10,0.11,0.10,0.10,2.51,2.56];
+        const hourCounts = [1746,1677,1720,1750,139,131,124,134,127,123,163,119,184,183,198,201,174,180,183,188,186,172,4568,4661];
+
+        Plotly.newPlot('chart-hour', [{
+            x: hours,
+            y: hourRates,
+            type: 'scatter',
+            mode: 'lines+markers',
+            line: { color: '#dc2626', width: 2 },
+            marker: { size: 6 },
+            text: hourCounts.map(c => c + ' frauds'),
+            hovertemplate: 'Hour %{x}:00<br>Fraud rate: %{y}%<br>%{text}<extra></extra>'
+        }], {
+            yaxis: { title: 'Fraud Rate (%)', gridcolor: '#e3e8ee' },
+            xaxis: { title: 'Hour of Day', dtick: 2 },
+            margin: { t: 20 },
+            plot_bgcolor: 'white',
+            height: 400,
+            shapes: [{
+                type: 'rect', xref: 'x', yref: 'paper',
+                x0: 22, x1: 24, y0: 0, y1: 1,
+                fillcolor: '#fecaca', opacity: 0.3, line: { width: 0 }
+            }, {
+                type: 'rect', xref: 'x', yref: 'paper',
+                x0: 0, x1: 3, y0: 0, y1: 1,
+                fillcolor: '#fecaca', opacity: 0.3, line: { width: 0 }
+            }]
+        }, { responsive: true });
     </script>
-
 </body>
+
 </html>

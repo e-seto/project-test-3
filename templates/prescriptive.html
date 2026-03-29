@@ -4,23 +4,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Credit Card Transaction Fraud Prevention Recommendations</title>
+    <title>Prescriptive Analysis - Credit Card Fraud</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 </head>
 
 <body>
-    <!-- navigation bar -->
     <nav class="navbar">
-        <div class="logo">CREDIT CARD FRAUD DETECTION DEMO</div>
+        <div class="logo">CREDIT CARD FRAUD DETECTION</div>
         <div class="nav-links">
             <a href="/">Home</a>
             <a href="/descriptive">Descriptive</a>
+            <a href="/diagnostic">Diagnostic</a>
             <a href="/predictive">Predictive</a>
             <a href="/prescriptive" class="active">Prescriptive</a>
         </div>
     </nav>
 
+    <div class="page-content">
+        <h1>Prescriptive Analysis</h1>
+        <p class="section-description">
+            Prescriptive analysis answers <strong>"What should we do about it?"</strong> Based on our model's
+            performance, we designed a three-tier decision policy that balances fraud prevention with
+            customer experience.
+        </p>
 
+        <div class="chart-card">
+            <h3>Three-Tier Decision Policy</h3>
+            <div id="chart-thresholds"></div>
+            <p class="chart-explanation">
+                Our model outputs a fraud probability between 0% and 100% for each transaction. We use two
+                thresholds to create three decision zones. These thresholds were tuned to maximize fraud
+                detection while keeping false positives manageable.
+            </p>
+        </div>
+
+        <div class="info-grid" style="margin-top: 25px;">
+            <div class="info-card policy-card safe-border">
+                <h3>Approve (below 69%)</h3>
+                <p>
+                    Transactions with a fraud probability below <strong>69%</strong> are automatically approved.
+                    This covers the vast majority of legitimate transactions. The threshold is set high enough
+                    to avoid blocking real customers &mdash; a declined legitimate purchase frustrates cardholders
+                    and costs the business revenue.
+                </p>
+            </div>
+
+            <div class="info-card policy-card review-border">
+                <h3>Manual Review (69% &ndash; 87%)</h3>
+                <p>
+                    Transactions in the <strong>69% to 87%</strong> range are flagged for human review. These
+                    are suspicious but not certain fraud &mdash; perhaps a customer traveling or making an
+                    unusual purchase. A fraud analyst reviews the details and contacts the cardholder if needed.
+                    This middle zone protects both the customer and the institution.
+                </p>
+            </div>
+
+            <div class="info-card policy-card fraud-border">
+                <h3>Block (above 87%)</h3>
+                <p>
+                    Transactions scoring above <strong>87%</strong> are automatically blocked. At this
+                    confidence level, the model is highly certain the transaction is fraudulent. The card
+                    issuer declines the charge and may freeze the card, notifying the cardholder immediately
+                    to verify their identity.
+                </p>
+            </div>
+        </div>
+
+        <div class="info-card" style="margin-top: 25px;">
+            <h3>Practical Recommendations for Financial Institutions</h3>
+            <div class="findings-grid">
+                <div class="finding">
+                    <h4>Enhanced Monitoring at Night</h4>
+                    <p>
+                        Deploy stricter thresholds for transactions between 10 PM and 3 AM, when fraud rates
+                        are 10&ndash;25x higher. Consider requiring additional authentication (SMS code, push
+                        notification) for high-value late-night purchases.
+                    </p>
+                </div>
+                <div class="finding">
+                    <h4>Online Transaction Safeguards</h4>
+                    <p>
+                        Since online categories show 3&ndash;12x higher fraud rates, implement additional
+                        verification for card-not-present transactions, such as 3D Secure (Verified by Visa,
+                        Mastercard SecureCode) and device fingerprinting.
+                    </p>
+                </div>
+                <div class="finding">
+                    <h4>Customer Spending Profiles</h4>
+                    <p>
+                        Maintain real-time spending profiles per cardholder. Flag transactions that deviate
+                        significantly from a customer's typical amount &mdash; our model shows this is the
+                        second most important fraud signal after the raw transaction amount.
+                    </p>
+                </div>
+                <div class="finding">
+                    <h4>Threshold Tuning</h4>
+                    <p>
+                        The review (69%) and block (87%) thresholds should be periodically re-tuned as fraud
+                        patterns evolve. Institutions with lower fraud tolerance can tighten thresholds, while
+                        those prioritizing customer experience can loosen them.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Threshold visualization
+        const xVals = [];
+        const yVals = [];
+        for (let p = 0; p <= 100; p++) {
+            xVals.push(p);
+            yVals.push(p);
+        }
+
+        Plotly.newPlot('chart-thresholds', [{
+            x: xVals,
+            y: yVals,
+            type: 'scatter',
+            mode: 'lines',
+            line: { color: '#888', width: 2 },
+            showlegend: false,
+            hoverinfo: 'skip'
+        }], {
+            xaxis: { title: 'Model Output: Fraud Probability (%)', range: [0, 100] },
+            yaxis: { visible: false },
+            margin: { t: 20, b: 60 },
+            plot_bgcolor: 'white',
+            height: 200,
+            shapes: [
+                { type: 'rect', xref: 'x', yref: 'paper', x0: 0, x1: 69, y0: 0, y1: 1, fillcolor: '#bbf7d0', opacity: 0.5, line: { width: 0 } },
+                { type: 'rect', xref: 'x', yref: 'paper', x0: 69, x1: 87, y0: 0, y1: 1, fillcolor: '#fef08a', opacity: 0.5, line: { width: 0 } },
+                { type: 'rect', xref: 'x', yref: 'paper', x0: 87, x1: 100, y0: 0, y1: 1, fillcolor: '#fecaca', opacity: 0.5, line: { width: 0 } },
+                { type: 'line', xref: 'x', yref: 'paper', x0: 69, x1: 69, y0: 0, y1: 1, line: { color: '#f59e0b', width: 2, dash: 'dash' } },
+                { type: 'line', xref: 'x', yref: 'paper', x0: 87, x1: 87, y0: 0, y1: 1, line: { color: '#dc2626', width: 2, dash: 'dash' } }
+            ],
+            annotations: [
+                { x: 34, y: 0.5, xref: 'x', yref: 'paper', text: '<b>APPROVE</b>', showarrow: false, font: { size: 16, color: '#16a34a' } },
+                { x: 78, y: 0.5, xref: 'x', yref: 'paper', text: '<b>REVIEW</b>', showarrow: false, font: { size: 16, color: '#d97706' } },
+                { x: 93.5, y: 0.5, xref: 'x', yref: 'paper', text: '<b>BLOCK</b>', showarrow: false, font: { size: 16, color: '#dc2626' } },
+                { x: 69, y: 1.08, xref: 'x', yref: 'paper', text: '69%', showarrow: false, font: { size: 12, color: '#f59e0b' } },
+                { x: 87, y: 1.08, xref: 'x', yref: 'paper', text: '87%', showarrow: false, font: { size: 12, color: '#dc2626' } }
+            ]
+        }, { responsive: true, staticPlot: true });
+    </script>
 </body>
 
 </html>
