@@ -1,169 +1,342 @@
-/* global */
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+/* ── CSS variables ── */
 :root {
-    --primary-colour: #42698e;
-    --primary-emphasis-colour: #2c5276;
-    --secondary-colour: #6385a6;
-    --secondary-emphasis-colour: #7c9fc1;
-    --accent-colour: #ff8552;
-    --accent-emphasis-colour: #ff763b;
-    --neutral-colour: #e3e8ee;
-    --text-colour: #211a1d;
-    --background-colour: #ffffff;
+    --bg:            #ffffff;
+    --bg-panel:      #fafafa;
+    --bg-panel-2:    #f5f5f5;
+    --border:        #e0e0e0;
+    --border-glow:   #cccccc;
+    --text-primary:  #333333;
+    --text-dim:      #aaaaaa;
+    --text-bright:   #000000;
+    --accent:        #000000;
+    --accent-hover:  #333333;
 }
+
+/* ── reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    background: var(--background-colour);
-    margin: 0;
-    padding: 20px;
-    color: var(--primary-colour);
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 32px 40px;
 }
 
-/* navbar */
+/* ── navbar ── */
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 30px;
-}
-
-.logo {
-    font-weight: bold;
-    padding: 10px 18px;
-    border: 2px solid var(--accent-colour);
-    border-radius: 15px;
+    margin-bottom: 48px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
 }
 
 .nav-links a {
-    margin-left: 25px;
+    margin: 0 20px;
     text-decoration: none;
-    color: var(--primary-colour);
-    font-weight: 500;
-    transition: 0.2s ease;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    transition: color 0.2s;
 }
 
 .nav-links a:hover {
-    color: var(--primary-emphasis-colour);
+    color: var(--text-bright);
 }
 
 .nav-links a.active {
-    border-bottom: 3px solid var(--accent-colour);
-    padding-bottom: 4px;
+    color: var(--text-bright);
+    border-bottom: 1px solid var(--text-bright);
+    padding-bottom: 3px;
 }
 
-/* general page layout */
+/* ── page title ── */
+h1 {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+/* ── layout ── */
 .container {
     display: flex;
-    gap: 25px;
-    align-items: center;
+    gap: 20px;
+    align-items: flex-start;
 }
 
-/* panels */
+/* ── panels ── */
 .panel {
     flex: 1;
-    border: 2px solid var(--primary-colour);
-    border-radius: 20px;
-    padding: 20px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
     min-height: 420px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-/* tabs */
-.tabs {
+/* ── panel flash animations ── */
+.panel.flash-safe {
+    border-color: #16a34a;
+    box-shadow: 0 0 20px rgba(22, 163, 74, 0.15);
+    animation: pulse-safe 0.6s ease-out;
+}
+
+.panel.flash-fraud {
+    border-color: #dc2626;
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.15);
+    animation: pulse-fraud 0.6s ease-out;
+}
+
+.panel.flash-review {
+    border-color: #d97706;
+    box-shadow: 0 0 20px rgba(217, 119, 6, 0.15);
+    animation: pulse-review 0.6s ease-out;
+}
+
+@keyframes pulse-safe {
+    0%   { box-shadow: 0 0 40px rgba(22, 163, 74, 0.3); }
+    100% { box-shadow: 0 0 20px rgba(22, 163, 74, 0.15); }
+}
+@keyframes pulse-fraud {
+    0%   { box-shadow: 0 0 40px rgba(220, 38, 38, 0.3); }
+    100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.15); }
+}
+@keyframes pulse-review {
+    0%   { box-shadow: 0 0 40px rgba(217, 119, 6, 0.3); }
+    100% { box-shadow: 0 0 20px rgba(217, 119, 6, 0.15); }
+}
+
+/* ── data display ── */
+.data-display-header {
     display: flex;
-    margin-bottom: 15px;
-    color: var(--background-colour)
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
-.tab {
-    flex: 1;
-    padding: 12px;
-    text-align: center;
+.data-display-header span {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+}
+
+#refresh-btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--text-dim);
     cursor: pointer;
-    background: var(--secondary-colour);
-    border: 1px solid var(--primary-colour);
-    border-right: none;
-    transition: all 0.2s ease;
+    transition: all 0.2s;
 }
 
-.tab:first-child {
-    border-radius: 10px 0 0 0;
+#refresh-btn:hover {
+    border-color: var(--text-bright);
+    color: var(--text-bright);
 }
 
-.tab:last-child {
-    border-right: 1px solid var(--primary-colour);
-    border-radius: 0 10px 0 0;
+.data-display {
+    background: var(--bg-panel-2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 10px 14px;
+    margin-bottom: 20px;
 }
 
-.tab:hover {
-    background: var(--secondary-emphasis-colour);
+.data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
 }
 
-.tab.active-tab {
-    background: var(--primary-emphasis-colour);
-    color: var(--background-colour);
-    font-weight: bold;
+.data-row:last-child { border-bottom: none; }
+
+.data-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
 }
 
-/* JSON display */
-pre {
-    background: var(--neutral-colour);
-    padding: 15px;
-    border-radius: 12px;
+.data-value {
+    color: var(--text-bright);
+    font-weight: 600;
+    font-size: 12px;
+    text-align: right;
+    max-width: 60%;
+}
+
+/* ── form grid ── */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+
+.form-group select,
+.form-group input[type="number"] {
+    padding: 8px 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text-bright);
+    font-family: 'Rajdhani', sans-serif;
     font-size: 14px;
-    overflow-x: auto;
-    border: 1px solid var(--primary-emphasis-colour);
+    font-weight: 500;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
 }
 
-/* predict button */
+.form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23aaaaaa'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+}
+
+.form-group select:focus,
+.form-group input[type="number"]:focus {
+    border-color: var(--text-bright);
+}
+
+.form-group select option {
+    background: var(--bg);
+    color: var(--text-bright);
+}
+
+/* ── predict button ── */
 .predict-btn {
-    padding: 14px 22px;
-    border: none;
-    border-radius: 30px;
-    background: var(--accent-colour);
-    color: var(--background-colour);
-    font-weight: bold;
+    padding: 14px 24px;
+    border: 1px solid var(--text-bright);
+    border-radius: 3px;
+    background: transparent;
+    color: var(--text-bright);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .predict-btn:hover {
-    background: var(--accent-emphasis-colour);
-    transform: scale(1.05);
+    background: var(--text-bright);
+    color: var(--bg);
+    transform: scale(1.03);
 }
 
-
-/* results display */
+/* ── results panel ── */
 .results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    gap: 16px;
     text-align: center;
-    margin-top: 60px;
-    font-size: 18px;
-    line-height: 1.6;
 }
 
-/* fraud styles */
-.fraud {
-    color: #dc2626;
-    font-weight: bold;
+.results-placeholder {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
 }
 
-.review {
-    color: #f59e0b;
-    font-weight: bold;
+.result-probability {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }
 
-.safe {
-    color: #16a34a;
-    font-weight: bold;
+.result-number {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 64px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--text-bright);
 }
 
-/* responsive */
+.result-decision {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border: 1px solid currentColor;
+    border-radius: 2px;
+}
+
+/* result color states */
+.result-safe   { color: #16a34a; }
+.result-review { color: #d97706; }
+.result-fraud  { color: #dc2626; }
+
+/* ── scanning state ── */
+.scanning {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.2; }
+}
+
+/* ── tableau / descriptive ── */
+.tableau-wrapper {
+    margin-top: 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* ── responsive ── */
 @media (max-width: 900px) {
-    .container {
-        flex-direction: column;
-    }
-
-    .predict-btn {
-        width: 100%;
-    }
+    body { padding: 20px; }
+    .container { flex-direction: column; }
+    .predict-btn { width: 100%; }
+    .form-grid { grid-template-columns: 1fr; }
 }

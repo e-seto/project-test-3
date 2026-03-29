@@ -100,10 +100,35 @@ function buildPayload() {
     };
 }
 
+/* ── count-up animation ── */
+function animateCount(el, target, duration = 800) {
+    const start = performance.now();
+    const startVal = parseFloat(el.textContent) || 0;
+
+    function step(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        el.textContent = (startVal + (target - startVal) * eased).toFixed(2) + "%";
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target.toFixed(2) + "%";
+    }
+    requestAnimationFrame(step);
+}
+
+/* ── panel flash ── */
+function flashPanel(cls) {
+    const panel = document.getElementById("result-panel");
+    panel.classList.remove("flash-safe", "flash-fraud", "flash-review");
+    void panel.offsetWidth; // force reflow
+    panel.classList.add(cls);
+    setTimeout(() => panel.classList.remove(cls), 2000);
+}
+
 /* ── predict ── */
 function predict() {
     const resultBox = document.getElementById("prediction-result");
-    resultBox.innerHTML = "Running model...";
+    resultBox.innerHTML = `<span class="scanning">SCANNING...</span>`;
 
     fetch("/predictive", {
         method: "POST",
@@ -113,34 +138,42 @@ function predict() {
     .then(res => res.json())
     .then(data => {
         if (data.error) {
-            resultBox.innerHTML = `⚠️ ${data.error}`;
+            resultBox.innerHTML = `<span class="scanning">⚠ ${data.error}</span>`;
             return;
         }
 
-        const prob = (data.fraud_probability * 100).toFixed(2);
+        const prob = data.fraud_probability * 100;
 
         let decisionText  = "";
-        let decisionClass = "";
+        let colorClass    = "";
+        let flashClass    = "";
 
         if (data.decision === "legit") {
-            decisionText  = "Legit Transaction";
-            decisionClass = "safe";
+            decisionText = "LEGIT";
+            colorClass   = "result-safe";
+            flashClass   = "flash-safe";
         } else if (data.decision === "manual_review") {
-            decisionText  = "Needs Manual Review";
-            decisionClass = "review";
+            decisionText = "MANUAL REVIEW";
+            colorClass   = "result-review";
+            flashClass   = "flash-review";
         } else {
-            decisionText  = "Block Transaction";
-            decisionClass = "fraud";
+            decisionText = "BLOCKED";
+            colorClass   = "result-fraud";
+            flashClass   = "flash-fraud";
         }
 
         resultBox.innerHTML = `
-            <p><strong>Fraud Probability:</strong> ${prob}%</p>
-            <p class="${decisionClass}">${decisionText}</p>
+            <div class="result-probability">Fraud Probability</div>
+            <div class="result-number ${colorClass}" id="prob-counter">0.00%</div>
+            <div class="result-decision ${colorClass}">${decisionText}</div>
         `;
+
+        animateCount(document.getElementById("prob-counter"), prob);
+        flashPanel(flashClass);
     })
     .catch(err => {
         console.error(err);
-        resultBox.innerHTML = "Server error";
+        resultBox.innerHTML = `<span class="scanning">SERVER ERROR</span>`;
     });
 }
 

@@ -7,32 +7,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
         /* ── home-only overrides ── */
-        :root {
-            --bg: #ffffff;
-            --bg-panel: #ffffff;
-            --border: #e0e0e0;
-            --border-glow: #ccc;
-            --neon-blue: #000000;
-            --neon-cyan: #000000;
-            --neon-green: #000000;
-            --neon-red: #000000;
-            --neon-orange: #000000;
-            --text-primary: #111111;
-            --text-dim: #888888;
-            --text-bright: #000000;
-            --accent: #000000;
-            --scan-line: transparent;
-        }
-
         body {
             padding: 0;
             overflow: hidden;
             height: 100vh;
-            background-image: none;
-        }
-
-        body::before {
-            display: none;
         }
 
         /* home navbar */
@@ -52,13 +30,13 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
             text-decoration: none;
-            color: #aaaaaa;
-            transition: color 0.3s;
+            color: var(--text-dim);
+            transition: color 0.3s, text-shadow 0.3s;
         }
 
         .home-nav a:hover {
-            color: #000000;
-            text-shadow: none;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 8px var(--neon-cyan);
         }
 
         /* hero */
@@ -78,8 +56,8 @@
             font-family: 'Share Tech Mono', monospace;
             font-size: 11px;
             letter-spacing: 0.35em;
-            color: #aaaaaa;
-            text-shadow: none;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
             text-transform: uppercase;
             margin-bottom: 28px;
             opacity: 0;
@@ -116,11 +94,9 @@
         .hero-title .line:nth-child(3) span {
             animation-delay: 0.8s;
             color: transparent;
-            -webkit-text-stroke: 1.5px #000000;
+            -webkit-text-stroke: 1px var(--neon-blue);
             text-shadow: none;
-            filter: none;
-            position: relative;
-            z-index: 1;
+            filter: drop-shadow(0 0 12px var(--neon-blue));
         }
 
         /* subtitle */
@@ -128,7 +104,7 @@
             font-family: 'Share Tech Mono', monospace;
             font-size: 12px;
             letter-spacing: 0.15em;
-            color: #aaaaaa;
+            color: var(--text-dim);
             text-align: center;
             margin-top: 36px;
             opacity: 0;
@@ -149,19 +125,19 @@
             letter-spacing: 0.25em;
             text-transform: uppercase;
             text-decoration: none;
-            color: #000000;
-            border: 1px solid #000000;
+            color: var(--accent);
+            border: 1px solid var(--accent);
             padding: 14px 36px;
             border-radius: 3px;
             display: inline-block;
-            text-shadow: none;
-            box-shadow: none;
+            text-shadow: 0 0 10px var(--accent);
+            box-shadow: 0 0 16px rgba(255,133,82,0.15), inset 0 0 16px rgba(255,133,82,0.05);
             transition: all 0.3s ease;
         }
 
         .hero-enter a:hover {
-            background: #000000;
-            color: #ffffff;
+            background: rgba(255, 133, 82, 0.1);
+            box-shadow: 0 0 28px rgba(255,133,82,0.35), inset 0 0 20px rgba(255,133,82,0.08);
             transform: scale(1.03);
         }
 
@@ -175,8 +151,8 @@
             font-family: 'Share Tech Mono', monospace;
             font-size: 10px;
             letter-spacing: 0.12em;
-            color: #aaaaaa;
-            border-top: 1px solid #e0e0e0;
+            color: var(--text-dim);
+            border-top: 1px solid var(--border);
             opacity: 0;
             animation: fadeUp 0.8s ease forwards 1.7s;
         }
@@ -186,8 +162,8 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: #000000;
-            box-shadow: none;
+            background: var(--neon-green);
+            box-shadow: 0 0 6px var(--neon-green);
             margin-right: 8px;
             animation: statusPulse 2s ease-in-out infinite;
         }
@@ -217,7 +193,7 @@
         .scroll-line {
             width: 1px;
             height: 40px;
-            background: linear-gradient(to bottom, #000000, transparent);
+            background: linear-gradient(to bottom, var(--neon-blue), transparent);
             animation: scrollDrop 1.5s ease-in-out infinite;
         }
 
@@ -232,28 +208,23 @@
             position: absolute;
             top: 0; left: 0;
             color: transparent;
-            -webkit-text-stroke: 1.5px #000000;
-            z-index: -1;
+            -webkit-text-stroke: 1px var(--neon-blue);
         }
 
         .glitch::before {
             animation: glitch1 3.5s infinite;
             clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
-            color: #ff1744;
+            color: var(--neon-red);
             -webkit-text-stroke: 0;
-            opacity: 1;
-            text-shadow: 0 0 6px #ff1744, 0 0 16px #ff1744, 0 0 32px #ff4444;
-            filter: blur(0.3px);
+            opacity: 0.6;
         }
 
         .glitch::after {
             animation: glitch2 3.5s infinite;
             clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
-            color: #00e676;
+            color: var(--neon-cyan);
             -webkit-text-stroke: 0;
-            opacity: 1;
-            text-shadow: 0 0 6px #00e676, 0 0 16px #00e676, 0 0 32px #00ff88;
-            filter: blur(0.3px);
+            opacity: 0.4;
         }
 
         /* ── keyframes ── */
