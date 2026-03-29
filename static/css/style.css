@@ -31,8 +31,16 @@ body {
     font-weight: bold;
     padding: 10px 18px;
     border: 2px solid var(--accent-colour);
-    border-radius: 15px;
+    border-radius: 15px; 
 }
+
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;       
+    gap: 12px 20px;      
+    align-items: center;
+}
+
 
 .nav-links a {
     margin-left: 25px;
@@ -250,9 +258,25 @@ pre {
 
 .chart-explanation {
     font-size: 14px;
-    color: #555;
+    color: var(--primary-colour);
     line-height: 1.6;
     margin-bottom: 0;
+}
+
+/* tableau dashboard */
+.dashboard {
+    width: 100%;             
+    max-width: 1250px;       
+    overflow-x: auto;  
+}
+
+.dashboard .tableauPlaceholder {
+    width: 100% !important;  
+}
+
+.dashboard object.tableauViz {
+    width: 100% !important; 
+    height: 827px !important; 
 }
 
 /* findings grid (diagnostic / prescriptive) */

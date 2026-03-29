@@ -38,7 +38,7 @@
                 <p class="chart-explanation">
                     Online shopping (<strong>shopping_net</strong>) and miscellaneous online transactions
                     (<strong>misc_net</strong>) have the highest fraud rates at 1.74% and 1.52% respectively.
-                    This makes sense &mdash; online transactions lack physical card verification, making them
+                    This makes sense as online transactions lack physical card verification, making them
                     easier targets for fraudsters. In-person categories like home and kids/pets have rates
                     below 0.15%.
                 </p>
@@ -48,16 +48,16 @@
                 <h3>Fraud Rate by Hour of Day</h3>
                 <div id="chart-hour"></div>
                 <p class="chart-explanation">
-                    Fraud spikes dramatically during late-night hours (10 PM &ndash; 3 AM), peaking at
-                    <strong>2.56%</strong> at 11 PM. During normal business hours (4 AM &ndash; 9 PM),
-                    fraud rates hover around 0.10&ndash;0.15%. This pattern suggests fraudsters operate
+                    Fraud spikes dramatically during late-night hours (10 PM to 3 AM), peaking at
+                    <strong>2.56%</strong> at 11 PM. During normal business hours (4 AM to 9 PM),
+                    fraud rates hover around 0.10% to 0.15%. This pattern suggests fraudsters operate
                     when cardholders are asleep and less likely to notice unauthorized charges.
                 </p>
             </div>
         </div>
 
         <!-- Tableau Dashboard -->
-        <div class="chart-card" style="margin-top: 25px;">
+        <div class="chart-card dashboard" style="margin-top: 25px;">
             <h3>Full Exploratory Dashboard (Tableau)</h3>
             <div class='tableauPlaceholder' id='viz1774306642624' style='position: relative'>
                 <noscript>
@@ -88,13 +88,10 @@
             <script type='text/javascript'>
                 var divElement = document.getElementById('viz1774306642624');
                 var vizElement = divElement.getElementsByTagName('object')[0];
-                if (divElement.offsetWidth > 800) {
-                    vizElement.style.width = '1200px'; vizElement.style.height = '827px';
-                } else if (divElement.offsetWidth > 500) {
-                    vizElement.style.width = '1200px'; vizElement.style.height = '827px';
-                } else {
-                    vizElement.style.width = '100%'; vizElement.style.height = '2977px';
-                }
+
+                vizElement.style.width = '100%';
+                vizElement.style.height = '827px';
+                
                 var scriptElement = document.createElement('script');
                 scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
                 vizElement.parentNode.insertBefore(scriptElement, vizElement);

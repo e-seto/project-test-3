@@ -52,12 +52,12 @@ function randomizeDefaults() {
 
 /* ── field display labels ── */
 const FIELD_LABELS = [
-    ["city",         "City"],
-    ["state",        "State"],
-    ["zip",          "ZIP"],
-    ["city_pop",     "City Population"],
-    ["job",          "Job"],
-    ["haversine_km", "Distance to Merchant (km)"],
+    ["city",         "City:"],
+    ["state",        "State:"],
+    ["zip",          "ZIP:"],
+    ["city_pop",     "City Population:"],
+    ["job",          "Job:"],
+    ["haversine_km", "Distance to Merchant (km):"],
 ];
 
 /* ── update the data summary panel ── */

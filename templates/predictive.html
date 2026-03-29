@@ -22,116 +22,124 @@
         </div>
     </nav>
 
-    <div class="container">
-        <!-- LEFT PANEL -->
-        <div class="panel">
+    <div class="page-content">
+        <h1>Predictive Analysis</h1>
+        <p class="section-description">
+            Predictive analysis answers <strong>"What will happen?"</strong> by using machine learning models to forecast fraud risk on new transactions. Enter transaction details below and see how our model assesses the likelihood of fraud in real time.
+        </p>
+    
 
-            <!-- 1. fixed defaults display (top) -->
-            <div class="data-display-header">
-                <span>Transaction Context</span>
-                <button id="refresh-btn">&#x21bb; Randomize</button>
+        <div class="container">
+            <!-- LEFT PANEL -->
+            <div class="panel">
+
+                <!-- 1. fixed defaults display (top) -->
+                <div class="data-display-header">
+                    <span>Transaction Context</span>
+                    <button id="refresh-btn">&#x21bb; Randomize</button>
+                </div>
+                <div id="data-display" class="data-display"></div>
+
+                <!-- 2. user inputs (below) -->
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select id="gender">
+                            <option value="M">M</option>
+                            <option value="F" selected>F</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category:</label>
+                        <select id="category">
+                            <option value="entertainment">entertainment</option>
+                            <option value="food_dining">food_dining</option>
+                            <option value="gas_transport">gas_transport</option>
+                            <option value="grocery_net">grocery_net</option>
+                            <option value="grocery_pos">grocery_pos</option>
+                            <option value="health_fitness">health_fitness</option>
+                            <option value="home">home</option>
+                            <option value="kids_pets">kids_pets</option>
+                            <option value="misc_net">misc_net</option>
+                            <option value="misc_pos">misc_pos</option>
+                            <option value="personal_care" selected>personal_care</option>
+                            <option value="shopping_net">shopping_net</option>
+                            <option value="shopping_pos">shopping_pos</option>
+                            <option value="travel">travel</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="day_of_week">Day of Week:</label>
+                        <select id="day_of_week">
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday" selected>Sunday</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hour">Hour:</label>
+                        <select id="hour">
+                            <option value="0">0 (Midnight)</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12 (Noon)</option>
+                            <option value="13">13</option>
+                            <option value="14" selected>14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Age:</label>
+                        <input type="number" id="age" value="53" min="18" max="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amt">Amount ($):</label>
+                        <input type="number" id="amt" value="5.23" min="0" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cust_amt_mean">Customer Avg Amount ($):</label>
+                        <input type="number" id="cust_amt_mean" value="65.01" min="0" step="0.01">
+                    </div>
+
+                </div>
             </div>
-            <div id="data-display" class="data-display"></div>
 
-            <!-- 2. user inputs (below) -->
-            <div class="form-grid">
+            <!-- BUTTON -->
+            <button class="predict-btn" id="predict-btn">PREDICT</button>
 
-                <div class="form-group">
-                    <label for="gender">Gender</label>
-                    <select id="gender">
-                        <option value="M">M</option>
-                        <option value="F" selected>F</option>
-                    </select>
+            <!-- RIGHT PANEL -->
+            <div class="panel">
+                <div id="prediction-result" class="results">
+                    Results will appear here.
                 </div>
-
-                <div class="form-group">
-                    <label for="category">Category</label>
-                    <select id="category">
-                        <option value="entertainment">entertainment</option>
-                        <option value="food_dining">food_dining</option>
-                        <option value="gas_transport">gas_transport</option>
-                        <option value="grocery_net">grocery_net</option>
-                        <option value="grocery_pos">grocery_pos</option>
-                        <option value="health_fitness">health_fitness</option>
-                        <option value="home">home</option>
-                        <option value="kids_pets">kids_pets</option>
-                        <option value="misc_net">misc_net</option>
-                        <option value="misc_pos">misc_pos</option>
-                        <option value="personal_care" selected>personal_care</option>
-                        <option value="shopping_net">shopping_net</option>
-                        <option value="shopping_pos">shopping_pos</option>
-                        <option value="travel">travel</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="day_of_week">Day of Week</label>
-                    <select id="day_of_week">
-                        <option value="Monday">Monday</option>
-                        <option value="Tuesday">Tuesday</option>
-                        <option value="Wednesday">Wednesday</option>
-                        <option value="Thursday">Thursday</option>
-                        <option value="Friday">Friday</option>
-                        <option value="Saturday">Saturday</option>
-                        <option value="Sunday" selected>Sunday</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="hour">Hour</label>
-                    <select id="hour">
-                        <option value="0">0 (Midnight)</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12 (Noon)</option>
-                        <option value="13">13</option>
-                        <option value="14" selected>14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="age">Age</label>
-                    <input type="number" id="age" value="53" min="18" max="100">
-                </div>
-
-                <div class="form-group">
-                    <label for="amt">Amount ($)</label>
-                    <input type="number" id="amt" value="5.23" min="0" step="0.01">
-                </div>
-
-                <div class="form-group">
-                    <label for="cust_amt_mean">Customer Avg Amount ($)</label>
-                    <input type="number" id="cust_amt_mean" value="65.01" min="0" step="0.01">
-                </div>
-
-            </div>
-        </div>
-
-        <!-- BUTTON -->
-        <button class="predict-btn" id="predict-btn">PREDICT</button>
-
-        <!-- RIGHT PANEL -->
-        <div class="panel">
-            <div id="prediction-result" class="results">
-                Results will appear here
             </div>
         </div>
     </div>
