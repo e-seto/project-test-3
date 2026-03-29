@@ -8,7 +8,6 @@ const CITIES = [
     { city: "Durham",      state: "NC", zip: "27701", lat: 35.994,  long: -78.8986,  city_pop: 278993  },
     { city: "Richmond",    state: "VA", zip: "23220", lat: 37.5407, long: -77.436,   city_pop: 226610  },
     { city: "Boise",       state: "ID", zip: "83702", lat: 43.615,  long: -116.2023, city_pop: 235684  },
-    { city: "Fargo",       state: "ND", zip: "58102", lat: 46.8772, long: -96.7898,  city_pop: 125990  },
     { city: "Nevada",      state: "MO", zip: "64772", lat: 37.7749, long: -94.3571,  city_pop: 13596   },
 ];
 
