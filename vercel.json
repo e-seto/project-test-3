@@ -1,7 +1,8 @@
 {
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }],
   "functions": {
-    "app.py": {
-      "includeFiles": "{app.py,model.joblib,requirements.txt,templates/**,static/**}"
+    "api/**/*.py": {
+      "includeFiles": "{api/**/*.py,app.py,model.joblib,requirements.txt,templates/**,static/**}"
     }
   }
 }
