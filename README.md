@@ -12,7 +12,7 @@ This project focuses on developing a machine learning-based fraud detection syst
 
 ### Methodology
 
-- **Data Preprocessing**: Address class imbalance using techniques like [TODO: WHAT DID WE DO??] and engineer features such as [TODO: LIST SOME].
+- **Data Preprocessing**: Cleaned data by removing PII & redundant columns, standardizing fields, and engineering features such as trans_datetime and age, to organize transactions chronologically.
 - **Modelling**: Compare various ensemble machine learning algorithms (Random Forest, XGBoost, AdaBoost) to identify the best-performing model for fraud detection {TODO: MAYBE ADD A BIT MORE DETAIL??]
 - **Cost Evaluation**: Use F1-Score and recall to assess models and a cost formula to evaluate trade-offs between fraud detection accuracy and false positives to ensure the system balances risk and customer experience effectively. [TODO: IS THIS HOW WE EVALUATED]
 
