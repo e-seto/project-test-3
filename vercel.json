@@ -1,3 +1,8 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }]
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }],
+  "functions": {
+    "api/**/*.py": {
+      "excludeFiles": "{cleaned_data_files/**,datasets/**,modelling/**,data/**,notebooks/**,outputs/**,src/**,models/**,**/*.csv,**/*.ipynb,*.pdf,Project_Proposal.pdf,Makefile,491_cleaning.py}"
+    }
+  }
 }

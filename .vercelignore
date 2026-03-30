@@ -1,5 +1,3 @@
-# Keep serverless bundle small (500 MB Lambda limit).
-
 # Local / pipeline (not used by Flask app at runtime)
 modelling/
 src/
@@ -12,6 +10,7 @@ Makefile
 # Never ship raw data with the function (often multi‑GB if tracked)
 data/
 **/data/
+datasets/
 **/*.csv
 cleaned_data_files/
 
