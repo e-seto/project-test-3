@@ -57,7 +57,7 @@
         </div>
 
         <!-- Tableau Dashboard -->
-        <div class="chart-card" style="margin-top: 25px;">
+        <div class="chart-card" style="margin-top: 22px;">
             <h3>Full Exploratory Dashboard (Tableau)</h3>
             <div class='tableauPlaceholder' id='viz1774306642624' style='position: relative'>
                 <noscript>
@@ -71,12 +71,10 @@
                     <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
                     <param name='embed_code_version' value='3' />
                     <param name='site_root' value='' />
-                    <param name='name'
-                        value='INTD491ExploratoryCreditCardFraudDashboard/ExploratoryDashboard' />
+                    <param name='name' value='INTD491ExploratoryCreditCardFraudDashboard/ExploratoryDashboard' />
                     <param name='tabs' value='no' />
                     <param name='toolbar' value='yes' />
-                    <param name='static_image'
-                        value='https://public.tableau.com/static/images/IN/INTD491ExploratoryCreditCardFraudDashboard/ExploratoryDashboard/1.png' />
+                    <param name='static_image' value='https://public.tableau.com/static/images/IN/INTD491ExploratoryCreditCardFraudDashboard/ExploratoryDashboard/1.png' />
                     <param name='animate_transition' value='yes' />
                     <param name='display_static_image' value='yes' />
                     <param name='display_spinner' value='yes' />
@@ -103,6 +101,20 @@
     </div>
 
     <script>
+        const CYBER = {
+            bg: 'rgba(6,11,20,0)',
+            grid: 'rgba(0,245,255,0.08)',
+            text: 'rgba(224,247,250,0.6)',
+            font: 'Share Tech Mono, monospace'
+        };
+
+        const axisStyle = {
+            gridcolor: CYBER.grid,
+            color: CYBER.text,
+            tickfont: { family: CYBER.font, size: 11 },
+            linecolor: 'rgba(0,245,255,0.15)'
+        };
+
         // Fraud rate by category
         const categories = ["shopping_net","misc_net","grocery_pos","shopping_pos","gas_transport","travel","misc_pos","entertainment","personal_care","grocery_net","food_dining","health_fitness","home","kids_pets"];
         const catRates = [1.74, 1.52, 1.35, 0.66, 0.51, 0.29, 0.26, 0.22, 0.20, 0.19, 0.17, 0.16, 0.14, 0.14];
@@ -112,15 +124,22 @@
             x: categories,
             y: catRates,
             type: 'bar',
-            marker: { color: catRates.map(r => r > 1.0 ? '#dc2626' : r > 0.4 ? '#f59e0b' : '#42698e') },
+            marker: {
+                color: catRates.map(r => r > 1.0 ? '#ff2d55' : r > 0.4 ? '#ffe600' : '#00f5ff'),
+                opacity: 0.85,
+                line: { color: catRates.map(r => r > 1.0 ? '#ff2d55' : r > 0.4 ? '#ffe600' : '#00f5ff'), width: 1 }
+            },
             text: catCounts.map(c => c + ' frauds'),
-            hovertemplate: '%{x}<br>Fraud rate: %{y}%<br>%{text}<extra></extra>'
+            hovertemplate: '<b>%{x}</b><br>Fraud rate: %{y}%<br>%{text}<extra></extra>',
+            hoverlabel: { bgcolor: '#0a1628', bordercolor: '#00f5ff', font: { family: 'Share Tech Mono', color: '#00f5ff' } }
         }], {
-            yaxis: { title: 'Fraud Rate (%)', gridcolor: '#e3e8ee' },
-            xaxis: { tickangle: -45 },
-            margin: { b: 120, t: 20 },
-            plot_bgcolor: 'white',
-            height: 400
+            yaxis: { ...axisStyle, title: { text: 'Fraud Rate (%)', font: { family: CYBER.font, color: 'rgba(0,245,255,0.5)', size: 12 } } },
+            xaxis: { ...axisStyle, tickangle: -45 },
+            margin: { b: 130, t: 20, l: 60 },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0.3)',
+            height: 380,
+            font: { family: CYBER.font, color: CYBER.text }
         }, { responsive: true });
 
         // Fraud rate by hour
@@ -133,24 +152,29 @@
             y: hourRates,
             type: 'scatter',
             mode: 'lines+markers',
-            line: { color: '#dc2626', width: 2 },
-            marker: { size: 6 },
+            line: { color: '#ff2d55', width: 2.5 },
+            marker: { size: 7, color: '#ff2d55', line: { color: '#ff8099', width: 1 } },
+            fill: 'tozeroy',
+            fillcolor: 'rgba(255,45,85,0.07)',
             text: hourCounts.map(c => c + ' frauds'),
-            hovertemplate: 'Hour %{x}:00<br>Fraud rate: %{y}%<br>%{text}<extra></extra>'
+            hovertemplate: '<b>Hour %{x}:00</b><br>Fraud rate: %{y}%<br>%{text}<extra></extra>',
+            hoverlabel: { bgcolor: '#0a1628', bordercolor: '#ff2d55', font: { family: 'Share Tech Mono', color: '#ff2d55' } }
         }], {
-            yaxis: { title: 'Fraud Rate (%)', gridcolor: '#e3e8ee' },
-            xaxis: { title: 'Hour of Day', dtick: 2 },
-            margin: { t: 20 },
-            plot_bgcolor: 'white',
-            height: 400,
+            yaxis: { ...axisStyle, title: { text: 'Fraud Rate (%)', font: { family: CYBER.font, color: 'rgba(0,245,255,0.5)', size: 12 } } },
+            xaxis: { ...axisStyle, title: { text: 'Hour of Day', font: { family: CYBER.font, color: 'rgba(0,245,255,0.5)', size: 12 } }, dtick: 2 },
+            margin: { t: 20, l: 60 },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0.3)',
+            height: 380,
+            font: { family: CYBER.font, color: CYBER.text },
             shapes: [{
                 type: 'rect', xref: 'x', yref: 'paper',
                 x0: 22, x1: 24, y0: 0, y1: 1,
-                fillcolor: '#fecaca', opacity: 0.3, line: { width: 0 }
+                fillcolor: 'rgba(255,45,85,0.1)', opacity: 1, line: { width: 0 }
             }, {
                 type: 'rect', xref: 'x', yref: 'paper',
                 x0: 0, x1: 3, y0: 0, y1: 1,
-                fillcolor: '#fecaca', opacity: 0.3, line: { width: 0 }
+                fillcolor: 'rgba(255,45,85,0.1)', opacity: 1, line: { width: 0 }
             }]
         }, { responsive: true });
     </script>

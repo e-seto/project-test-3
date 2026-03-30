@@ -39,7 +39,7 @@
             </p>
         </div>
 
-        <div class="info-grid" style="margin-top: 25px;">
+        <div class="info-grid" style="margin-top: 22px;">
             <div class="info-card policy-card safe-border">
                 <h3>Approve (below 69%)</h3>
                 <p>
@@ -71,7 +71,7 @@
             </div>
         </div>
 
-        <div class="info-card" style="margin-top: 25px;">
+        <div class="info-card" style="margin-top: 22px;">
             <h3>Practical Recommendations for Financial Institutions</h3>
             <div class="findings-grid">
                 <div class="finding">
@@ -111,41 +111,49 @@
     </div>
 
     <script>
-        // Threshold visualization
-        const xVals = [];
-        const yVals = [];
-        for (let p = 0; p <= 100; p++) {
-            xVals.push(p);
-            yVals.push(p);
-        }
+        const CYBER = {
+            font: 'Share Tech Mono, monospace',
+            text: 'rgba(224,247,250,0.6)'
+        };
+
+        const xVals = Array.from({length: 101}, (_, i) => i);
+        const yVals = xVals.map(p => p);
 
         Plotly.newPlot('chart-thresholds', [{
             x: xVals,
             y: yVals,
             type: 'scatter',
             mode: 'lines',
-            line: { color: '#888', width: 2 },
+            line: { color: 'rgba(0,245,255,0.3)', width: 1.5 },
             showlegend: false,
             hoverinfo: 'skip'
         }], {
-            xaxis: { title: 'Model Output: Fraud Probability (%)', range: [0, 100] },
+            xaxis: {
+                title: { text: 'Model Output: Fraud Probability (%)', font: { family: CYBER.font, color: 'rgba(0,245,255,0.5)', size: 12 } },
+                range: [0, 100],
+                gridcolor: 'rgba(0,245,255,0.06)',
+                color: CYBER.text,
+                tickfont: { family: CYBER.font, size: 11 },
+                linecolor: 'rgba(0,245,255,0.15)'
+            },
             yaxis: { visible: false },
-            margin: { t: 20, b: 60 },
-            plot_bgcolor: 'white',
+            margin: { t: 30, b: 70 },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0.3)',
             height: 200,
             shapes: [
-                { type: 'rect', xref: 'x', yref: 'paper', x0: 0, x1: 69, y0: 0, y1: 1, fillcolor: '#bbf7d0', opacity: 0.5, line: { width: 0 } },
-                { type: 'rect', xref: 'x', yref: 'paper', x0: 69, x1: 87, y0: 0, y1: 1, fillcolor: '#fef08a', opacity: 0.5, line: { width: 0 } },
-                { type: 'rect', xref: 'x', yref: 'paper', x0: 87, x1: 100, y0: 0, y1: 1, fillcolor: '#fecaca', opacity: 0.5, line: { width: 0 } },
-                { type: 'line', xref: 'x', yref: 'paper', x0: 69, x1: 69, y0: 0, y1: 1, line: { color: '#f59e0b', width: 2, dash: 'dash' } },
-                { type: 'line', xref: 'x', yref: 'paper', x0: 87, x1: 87, y0: 0, y1: 1, line: { color: '#dc2626', width: 2, dash: 'dash' } }
+                { type: 'rect', xref: 'x', yref: 'paper', x0: 0, x1: 69, y0: 0, y1: 1, fillcolor: 'rgba(57,255,20,0.08)', opacity: 1, line: { width: 0 } },
+                { type: 'rect', xref: 'x', yref: 'paper', x0: 69, x1: 87, y0: 0, y1: 1, fillcolor: 'rgba(255,230,0,0.08)', opacity: 1, line: { width: 0 } },
+                { type: 'rect', xref: 'x', yref: 'paper', x0: 87, x1: 100, y0: 0, y1: 1, fillcolor: 'rgba(255,45,85,0.08)', opacity: 1, line: { width: 0 } },
+                { type: 'line', xref: 'x', yref: 'paper', x0: 69, x1: 69, y0: 0, y1: 1, line: { color: '#ffe600', width: 2, dash: 'dash' } },
+                { type: 'line', xref: 'x', yref: 'paper', x0: 87, x1: 87, y0: 0, y1: 1, line: { color: '#ff2d55', width: 2, dash: 'dash' } }
             ],
             annotations: [
-                { x: 34, y: 0.5, xref: 'x', yref: 'paper', text: '<b>APPROVE</b>', showarrow: false, font: { size: 16, color: '#16a34a' } },
-                { x: 78, y: 0.5, xref: 'x', yref: 'paper', text: '<b>REVIEW</b>', showarrow: false, font: { size: 16, color: '#d97706' } },
-                { x: 93.5, y: 0.5, xref: 'x', yref: 'paper', text: '<b>BLOCK</b>', showarrow: false, font: { size: 16, color: '#dc2626' } },
-                { x: 69, y: 1.08, xref: 'x', yref: 'paper', text: '69%', showarrow: false, font: { size: 12, color: '#f59e0b' } },
-                { x: 87, y: 1.08, xref: 'x', yref: 'paper', text: '87%', showarrow: false, font: { size: 12, color: '#dc2626' } }
+                { x: 34, y: 0.5, xref: 'x', yref: 'paper', text: '<b>APPROVE</b>', showarrow: false, font: { size: 15, color: '#39ff14', family: 'Orbitron, sans-serif' } },
+                { x: 78, y: 0.5, xref: 'x', yref: 'paper', text: '<b>REVIEW</b>', showarrow: false, font: { size: 15, color: '#ffe600', family: 'Orbitron, sans-serif' } },
+                { x: 93.5, y: 0.5, xref: 'x', yref: 'paper', text: '<b>BLOCK</b>', showarrow: false, font: { size: 15, color: '#ff2d55', family: 'Orbitron, sans-serif' } },
+                { x: 69, y: 1.15, xref: 'x', yref: 'paper', text: '69%', showarrow: false, font: { size: 12, color: '#ffe600', family: CYBER.font } },
+                { x: 87, y: 1.15, xref: 'x', yref: 'paper', text: '87%', showarrow: false, font: { size: 12, color: '#ff2d55', family: CYBER.font } }
             ]
         }, { responsive: true, staticPlot: true });
     </script>

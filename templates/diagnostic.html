@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        <div class="info-card" style="margin-top: 25px;">
+        <div class="info-card" style="margin-top: 22px;">
             <h3>Key Diagnostic Findings</h3>
             <div class="findings-grid">
                 <div class="finding">
@@ -92,48 +92,88 @@
     </div>
 
     <script>
-        // Feature importance (sorted descending)
+        const CYBER = {
+            bg: 'rgba(6,11,20,0)',
+            grid: 'rgba(0,245,255,0.08)',
+            text: 'rgba(224,247,250,0.6)',
+            font: 'Share Tech Mono, monospace'
+        };
+
+        const axisStyle = {
+            gridcolor: CYBER.grid,
+            color: CYBER.text,
+            tickfont: { family: CYBER.font, size: 11 },
+            linecolor: 'rgba(0,245,255,0.15)'
+        };
+
+        // Feature importance
         const features = ["amt","amt_deviation","hour","amt_deviation_ratio","category","age","gender","amt_deviation_zscore","day_of_week","city_pop","city","state","zip","job","haversine_dist_km"];
         const importances = [0.4054,0.2471,0.1179,0.0466,0.0423,0.0293,0.0275,0.0238,0.0116,0.0104,0.0081,0.0078,0.0077,0.0076,0.0070];
 
-        const colors = importances.map(v => v > 0.1 ? '#dc2626' : v > 0.03 ? '#f59e0b' : '#42698e');
+        const barColors = importances.map(v => v > 0.1 ? '#ff2d55' : v > 0.03 ? '#ffe600' : '#00f5ff');
 
         Plotly.newPlot('chart-importance', [{
             y: features.slice().reverse(),
             x: importances.slice().reverse(),
             type: 'bar',
             orientation: 'h',
-            marker: { color: colors.slice().reverse() },
-            hovertemplate: '%{y}: %{x:.1%}<extra></extra>'
+            marker: {
+                color: barColors.slice().reverse(),
+                opacity: 0.85,
+                line: { color: barColors.slice().reverse(), width: 1 }
+            },
+            hovertemplate: '<b>%{y}</b>: %{x:.1%}<extra></extra>',
+            hoverlabel: { bgcolor: '#0a1628', bordercolor: '#00f5ff', font: { family: 'Share Tech Mono', color: '#00f5ff' } }
         }], {
-            xaxis: { title: 'Importance Score', tickformat: '.0%', gridcolor: '#e3e8ee' },
-            margin: { l: 150, t: 20 },
-            plot_bgcolor: 'white',
-            height: 450
+            xaxis: {
+                ...axisStyle,
+                title: { text: 'Importance Score', font: { family: CYBER.font, color: 'rgba(0,245,255,0.5)', size: 12 } },
+                tickformat: '.0%'
+            },
+            yaxis: { ...axisStyle },
+            margin: { l: 160, t: 20, r: 20 },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0.3)',
+            height: 440,
+            font: { family: CYBER.font, color: CYBER.text }
         }, { responsive: true });
 
-        // Fraud vs Legit amount comparison (box plot style with bar)
+        // Fraud vs Legit amounts
         Plotly.newPlot('chart-amounts', [{
             x: ['Median', 'Mean', '75th Pctl', 'Max'],
             y: [44.31, 68.60, 81.53, 1000],
             name: 'Legitimate',
             type: 'bar',
-            marker: { color: '#42698e' },
-            hovertemplate: 'Legitimate<br>%{x}: $%{y:.2f}<extra></extra>'
+            marker: { color: '#00f5ff', opacity: 0.8, line: { color: '#00f5ff', width: 1 } },
+            hovertemplate: '<b>Legitimate</b><br>%{x}: $%{y:.2f}<extra></extra>',
+            hoverlabel: { bgcolor: '#0a1628', bordercolor: '#00f5ff', font: { family: 'Share Tech Mono', color: '#00f5ff' } }
         }, {
             x: ['Median', 'Mean', '75th Pctl', 'Max'],
             y: [437.08, 537.98, 915.29, 1403.41],
             name: 'Fraudulent',
             type: 'bar',
-            marker: { color: '#dc2626' },
-            hovertemplate: 'Fraudulent<br>%{x}: $%{y:.2f}<extra></extra>'
+            marker: { color: '#ff2d55', opacity: 0.8, line: { color: '#ff2d55', width: 1 } },
+            hovertemplate: '<b>Fraudulent</b><br>%{x}: $%{y:.2f}<extra></extra>',
+            hoverlabel: { bgcolor: '#0a1628', bordercolor: '#ff2d55', font: { family: 'Share Tech Mono', color: '#ff2d55' } }
         }], {
             barmode: 'group',
-            yaxis: { title: 'Transaction Amount ($)', gridcolor: '#e3e8ee' },
-            margin: { t: 20 },
-            plot_bgcolor: 'white',
+            yaxis: {
+                ...axisStyle,
+                title: { text: 'Transaction Amount ($)', font: { family: CYBER.font, color: 'rgba(0,245,255,0.5)', size: 12 } }
+            },
+            xaxis: { ...axisStyle },
+            margin: { t: 20, l: 70 },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0.3)',
             height: 400,
-            legend: { x: 0.02, y: 0.98 }
+            font: { family: CYBER.font, color: CYBER.text },
+            legend: {
+                x: 0.02, y: 0.98,
+                bgcolor: 'rgba(6,11,20,0.8)',
+                bordercolor: 'rgba(0,245,255,0.2)',
+                borderwidth: 1,
+                font: { family: CYBER.font, color: CYBER.text }
+            }
         }, { responsive: true });
     </script>
 </body>
