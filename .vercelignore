@@ -1,0 +1,29 @@
+# Keep serverless bundle small (500 MB Lambda limit).
+
+# Local / pipeline (not used by Flask app at runtime)
+modelling/
+src/
+notebooks/
+outputs/
+*.ipynb
+eda.ipynb
+Makefile
+
+# Never ship raw data with the function (often multi‑GB if tracked)
+data/
+**/data/
+**/*.csv
+cleaned_data_files/
+
+# Extra model artifacts not loaded by app.py (only xgboost + encoders + amt_stats)
+models/adaboost.joblib
+models/random_forest.joblib
+
+# Docs / assets not needed to serve
+*.pdf
+Project_Proposal.pdf
+
+# Dev
+.git
+.env
+.env.*
