@@ -80,9 +80,11 @@ function buildPayload() {
         category:      document.getElementById("category").value,
         day_of_week:   document.getElementById("day_of_week").value,
         hour:          parseInt(document.getElementById("hour").value),
+        month:         parseInt(document.getElementById("month").value),
         age:           parseInt(document.getElementById("age").value),
         amt:           amt,
         cust_amt_mean: cust_amt_mean,
+        amt_dev_from_mean: amt - cust_amt_mean,
     };
 }
 
