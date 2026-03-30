@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prescriptive Analysis - Credit Card Fraud</title>
+    <title>Prescriptive Analysis</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 </head>
@@ -39,7 +39,7 @@
             </p>
         </div>
 
-        <div class="info-grid" style="margin-top: 25px;">
+        <div class="info-grid info-grid--policy" style="margin-top: 25px;">
             <div class="info-card policy-card safe-border">
                 <h3>Approve (below 60%)</h3>
                 <p>
@@ -51,9 +51,9 @@
             </div>
 
             <div class="info-card policy-card review-border">
-                <h3>Manual Review (60% &ndash; 85%)</h3>
+                <h3>Manual Review (60% up to &lt;85%)</h3>
                 <p>
-                    Transactions in the <strong>60% to 85%</strong> range are flagged for human review. These
+                    Transactions with probability <strong>at least 60% but still below 85%</strong> are flagged for human review (exactly <strong>85%</strong> is treated as a block). These
                     are suspicious but not certain fraud as a customer may be travelling or making an
                     unusual purchase. A fraud analyst reviews the details and contacts the cardholder if needed.
                     This middle zone protects both the customer and the institution.
@@ -61,9 +61,9 @@
             </div>
 
             <div class="info-card policy-card fraud-border">
-                <h3>Block (above 85%)</h3>
+                <h3>Block (85% or higher)</h3>
                 <p>
-                    Transactions scoring above <strong>85%</strong> are automatically blocked. At this
+                    Transactions scoring <strong>85% or higher</strong> are automatically blocked. At this
                     confidence level, the model is highly certain the transaction is fraudulent. The card
                     issuer declines the charge and may freeze the card, notifying the cardholder immediately
                     to verify their identity.
@@ -101,7 +101,7 @@
                 <div class="finding">
                     <h4>Threshold Tuning</h4>
                     <p>
-                        The review (60%) and block (85%) thresholds should be periodically re-tuned as fraud
+                        The review cutoff (60%) and block cutoff (85%) should be periodically re-tuned as fraud
                         patterns evolve. Institutions with lower fraud tolerance can tighten thresholds, while
                         those prioritizing customer experience can loosen them.
                     </p>
