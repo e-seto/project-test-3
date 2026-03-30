@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#ffffff">
+    <title>Credit Card Fraud Detection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* ── home-only overrides ── */
+        :root {
+            --bg: #ffffff;
+            --bg-panel: #ffffff;
+            --border: #e0e0e0;
+            --border-glow: #ccc;
+            --neon-blue: #000000;
+            --neon-cyan: #000000;
+            --neon-green: #000000;
+            --neon-red: #000000;
+            --neon-orange: #000000;
+            --text-primary: #111111;
+            --text-dim: #888888;
+            --text-bright: #000000;
+            --accent: #000000;
+            --scan-line: transparent;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background-image: none;
+        }
+
+        body::before {
+            display: none;
+        }
+
+        /* home navbar */
+        .home-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: clamp(20px, 4vw, 48px);
+            padding: 32px 16px;
+        }
+
+        .home-nav a {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: #aaaaaa;
+            transition: color 0.3s;
+        }
+
+        .home-nav a:hover,
+        .home-nav a.active {
+            color: #000000;
+            text-shadow: none;
+        }
+
+        .home-nav a:focus {
+            outline: none;
+        }
+
+        .home-nav a:focus-visible {
+            outline: 2px solid #000000;
+            outline-offset: 4px;
+        }
+
+        /* hero */
+        .hero {
+            width: 100%;
+            max-width: 100vw;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            gap: 0;
+            padding: 0 clamp(16px, 4vw, 32px);
+            padding-top: max(80px, env(safe-area-inset-top, 0px));
+            padding-bottom: max(72px, env(safe-area-inset-bottom, 0px));
+            box-sizing: border-box;
+        }
+
+        /* label above title */
+        .hero-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.35em;
+            color: #aaaaaa;
+            text-shadow: none;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            opacity: 0;
+            transform: translateY(12px);
+            animation: fadeUp 0.9s ease forwards 0.3s;
+        }
+
+        /* main title */
+        .hero-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: clamp(52px, 8vw, 110px);
+            font-weight: 700;
+            line-height: 0.95;
+            text-align: center;
+            letter-spacing: -0.01em;
+            color: var(--text-bright);
+            margin: 0;
+        }
+
+        .hero-title .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .hero-title .line span {
+            display: block;
+            opacity: 0;
+            transform: translateY(100%);
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-title .line:nth-child(1) span { animation-delay: 0.5s; }
+        .hero-title .line:nth-child(2) span { animation-delay: 0.65s; }
+        .hero-title .line:nth-child(3) span {
+            animation-delay: 0.8s;
+            color: transparent;
+            -webkit-text-stroke: 1.5px #000000;
+            text-shadow: none;
+            filter: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* subtitle */
+        .hero-sub {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            color: #aaaaaa;
+            text-align: center;
+            margin-top: 36px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 1.1s;
+            line-height: 2;
+            max-width: 36em;
+            text-wrap: balance;
+        }
+
+        /* enter button */
+        .hero-enter {
+            margin-top: 52px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 1.4s;
+        }
+
+        .hero-enter a {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: #000000;
+            border: 1px solid #000000;
+            padding: 14px 36px;
+            border-radius: 3px;
+            display: inline-block;
+            text-shadow: none;
+            box-shadow: none;
+            transition: all 0.3s ease;
+        }
+
+        .hero-enter a:hover {
+            background: #000000;
+            color: #ffffff;
+            transform: scale(1.03);
+        }
+
+        .hero-enter a:focus {
+            outline: none;
+        }
+
+        .hero-enter a:focus-visible {
+            outline: 2px solid #000000;
+            outline-offset: 4px;
+        }
+
+        /* bottom status bar */
+        .status-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 20px clamp(16px, 4vw, 40px);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            color: #aaaaaa;
+            border-top: 1px solid #e0e0e0;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 1.7s;
+            background: rgba(255, 255, 255, 0.92);
+            padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #000000;
+            box-shadow: none;
+            margin-right: 8px;
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+
+        /* glitch effect on FRAUD word */
+        .glitch {
+            position: relative;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0;
+            color: transparent;
+            -webkit-text-stroke: 1.5px #000000;
+            z-index: -1;
+        }
+
+        .glitch::before {
+            animation: glitch1 3.5s infinite;
+            clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+            color: #ff1744;
+            -webkit-text-stroke: 0;
+            opacity: 1;
+            text-shadow: 0 0 6px #ff1744, 0 0 16px #ff1744, 0 0 32px #ff4444;
+            filter: blur(0.3px);
+        }
+
+        .glitch::after {
+            animation: glitch2 3.5s infinite;
+            clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+            color: #00e676;
+            -webkit-text-stroke: 0;
+            opacity: 1;
+            text-shadow: 0 0 6px #00e676, 0 0 16px #00e676, 0 0 32px #00ff88;
+            filter: blur(0.3px);
+        }
+
+        /* ── keyframes ── */
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.3; }
+        }
+
+        @keyframes glitch1 {
+            0%, 90%, 100% { transform: translate(0); }
+            92%           { transform: translate(-3px, 1px); }
+            94%           { transform: translate(3px, -1px); }
+            96%           { transform: translate(-2px, 0); }
+        }
+
+        @keyframes glitch2 {
+            0%, 90%, 100% { transform: translate(0); }
+            91%           { transform: translate(3px, 1px); }
+            93%           { transform: translate(-3px, -1px); }
+            95%           { transform: translate(2px, 0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-label,
+            .hero-title .line span,
+            .hero-sub,
+            .hero-enter,
+            .status-bar {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            .status-dot {
+                animation: none !important;
+                opacity: 1 !important;
+            }
+            .glitch::before,
+            .glitch::after {
+                animation: none !important;
+            }
+            .hero-enter a:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- nav -->
+    <nav class="home-nav" aria-label="Main">
+        <a href="/" class="active">Home</a>
+        <a href="/descriptive">Descriptive</a>
+        <a href="/diagnostic">Diagnostic</a>
+        <a href="/predictive">Predictive</a>
+        <a href="/prescriptive">Prescriptive</a>
+    </nav>
+
+    <!-- hero -->
+    <section class="hero">
+
+        <p class="hero-label">[ Real-time Transaction Analysis ]</p>
+
+        <h1 class="hero-title">
+            <span class="line"><span>CREDIT CARD</span></span>
+            <span class="line"><span>FRAUD</span></span>
+            <span class="line"><span class="glitch" data-text="DETECTION">DETECTION</span></span>
+        </h1>
+
+        <p class="hero-sub">
+            XGBoost · Machine Learning · Live Inference
+        </p>
+
+        <div class="hero-enter">
+            <a href="/predictive">RUN ANALYSIS →</a>
+        </div>
+
+    </section>
+
+    <!-- status bar -->
+    <div class="status-bar">
+        <span><span class="status-dot"></span>MODEL ONLINE</span>
+        <span>INTD491 · CREDIT CARD FRAUD DETECTION DEMO</span>
+        <span>XGBoost Pipeline · v1.0</span>
+    </div>
+
+</body>
+</html>

@@ -30,7 +30,7 @@ def build_preprocessor(X):
             ("num", num_pipe, numeric_cols),
             (
                 "cat",
-                OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+                OneHotEncoder(handle_unknown="ignore", sparse_output=True),
                 categorical_cols,
             ),
         ]
