@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Credit Card Fraud Detection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
         /* ── home-only overrides ── */
@@ -42,8 +45,9 @@
             z-index: 100;
             display: flex;
             justify-content: center;
-            gap: 48px;
-            padding: 32px 0;
+            flex-wrap: wrap;
+            gap: clamp(20px, 4vw, 48px);
+            padding: 32px 16px;
         }
 
         .home-nav a {
@@ -56,7 +60,8 @@
             transition: color 0.3s;
         }
 
-        .home-nav a:hover {
+        .home-nav a:hover,
+        .home-nav a.active {
             color: #000000;
             text-shadow: none;
         }
@@ -171,7 +176,9 @@
             bottom: 0; left: 0; right: 0;
             display: flex;
             justify-content: space-between;
-            padding: 20px 40px;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 20px clamp(16px, 4vw, 40px);
             font-family: 'Share Tech Mono', monospace;
             font-size: 10px;
             letter-spacing: 0.12em;
@@ -192,7 +199,7 @@
             animation: statusPulse 2s ease-in-out infinite;
         }
 
-        /* scroll indicator */
+        /* scroll indicator (decorative — home uses overflow: hidden) */
         .scroll-hint {
             position: fixed;
             bottom: 60px;
@@ -204,6 +211,8 @@
             gap: 6px;
             opacity: 0;
             animation: fadeUp 0.8s ease forwards 2s;
+            pointer-events: none;
+            z-index: 50;
         }
 
         .scroll-hint span {
@@ -295,8 +304,9 @@
 
     <!-- nav -->
     <nav class="home-nav">
-        <a href="/">Home</a>
+        <a href="/" class="active">Home</a>
         <a href="/descriptive">Descriptive</a>
+        <a href="/diagnostic">Diagnostic</a>
         <a href="/predictive">Predictive</a>
         <a href="/prescriptive">Prescriptive</a>
     </nav>
@@ -321,6 +331,11 @@
         </div>
 
     </section>
+
+    <div class="scroll-hint" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+    </div>
 
     <!-- status bar -->
     <div class="status-bar">

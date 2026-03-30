@@ -1,16 +1,22 @@
 # Flask app for deployment
 
+import os
+
 import joblib
 import pandas as pd
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
-from flask import Flask, render_template, request, jsonify
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
+from flask import Flask, jsonify, render_template, request
 
-app = Flask(__name__)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "model.joblib")
+
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, "templates"),
+    static_folder=os.path.join(BASE_DIR, "static"),
+)
 
 # load trained pipeline
-model = joblib.load("model.joblib")
+model = joblib.load(MODEL_PATH)
 
 # thresholds
 LEGIT_THRESHOLD = 0.60
@@ -19,23 +25,26 @@ REVIEW_THRESHOLD = 0.85
 # routes
 @app.route("/")
 def home():
-    return render_template("index.html")  
+    return render_template("index.html")
+
 
 @app.route("/descriptive", methods=["GET"])
 def descriptive():
     # TODO: replace with actual queries and visualizations
-    fraud_rate = 0.55
-    total_transactions = 3500000
-    fraudulent_transactions = total_transactions * (fraud_rate / 100)
+    return render_template("descriptive.html")
 
-    return render_template("descriptive.html", fraud_rate=fraud_rate, total_transactions=total_transactions, fraudulent_transactions=fraudulent_transactions)
+
+@app.route("/diagnostic", methods=["GET"])
+def diagnostic():
+    return render_template("diagnostic.html")
+
 
 @app.route("/predictive", methods=["GET", "POST"])
 def predictive():
     if request.method == "GET":
         # render the predictive page
-        return render_template('predictive.html')
-    
+        return render_template("predictive.html")
+
     if request.method == "POST":
         try:
             # check if the request contains JSON
@@ -44,6 +53,8 @@ def predictive():
 
             # get the transaction data
             data = request.get_json()
+            if not isinstance(data, dict):
+                return jsonify({"error": "Request body must be a JSON object"}), 400
 
             # convert to data for model
             df = pd.DataFrame([data])
@@ -62,13 +73,14 @@ def predictive():
             # return the prediction and decision as a JSON response
             return jsonify({
                 "fraud_probability": float(proba),
-                "decision": decision
+                "decision": decision,
             })
 
         except Exception as e:
             # log the error
             print(f"Error in prediction: {str(e)}")
             return jsonify({"error": str(e)}), 400
+
 
 @app.route("/prescriptive", methods=["GET"])
 def prescriptive():

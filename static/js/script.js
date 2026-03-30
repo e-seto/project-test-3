@@ -135,8 +135,22 @@ function predict() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(buildPayload())
     })
-    .then(res => res.json())
+    .then(async (res) => {
+        const text = await res.text();
+        let data;
+        try {
+            data = text ? JSON.parse(text) : {};
+        } catch {
+            throw new Error("non-json");
+        }
+        if (!res.ok) {
+            resultBox.innerHTML = `<span class="scanning">&mdash; ${data.error || res.statusText || "Request failed"}</span>`;
+            return;
+        }
+        return data;
+    })
     .then(data => {
+        if (!data) return;
         if (data.error) {
             resultBox.innerHTML = `<span class="scanning">⚠ ${data.error}</span>`;
             return;
