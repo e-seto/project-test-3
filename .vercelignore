@@ -1,30 +1,49 @@
-# Local / pipeline (not used by Flask app at runtime)
-modelling/
-train_and_save.py
-491_cleaning.py
-src/
-notebooks/
-outputs/
-*.ipynb
-eda.ipynb
-Makefile
-
-# Never ship raw data with the function (often multi‑GB if tracked)
-data/
-**/data/
-datasets/
-**/*.csv
 cleaned_data_files/
+data/
+datasets/
+datasets_2/
+datasets_2000/
+docs/
+modellings/
+models/
+notebooks/
+src/
+tempaltes2/
 
-# Extra model artifacts not loaded by app.py (only xgboost + encoders + amt_stats)
-models/adaboost.joblib
-models/random_forest.joblib
+model.joblib
+thresholds_xgb.json
+train_and_save.py
 
-# Docs / assets not needed to serve
-*.pdf
-Project_Proposal.pdf
+.gitignore
+/.git/
 
-# Dev
-.git
-.env
-.env.*
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/
+
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+*.ipynb
+
+.ipynb_checkpoints/
+
+logs/
+*.log
+
+*.png
+*.jpg
+*.jpeg
+
+Makefile
+LICENSE
+README.md
