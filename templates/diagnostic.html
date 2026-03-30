@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostic Analysis - Credit Card Fraud</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">CREDIT CARD FRAUD DETECTION</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/descriptive">Descriptive</a>
+            <a href="/diagnostic" class="active">Diagnostic</a>
+            <a href="/predictive">Predictive</a>
+            <a href="/prescriptive">Prescriptive</a>
+        </div>
+    </nav>
+
+    <div class="page-content">
+        <h1>Diagnostic Analysis</h1>
+        <p class="section-description">
+            Diagnostic analysis answers <strong>"Why did it happen?"</strong> by digging deeper into the
+            patterns behind fraud. We use our trained XGBoost model's feature importances and statistical
+            comparisons to understand what separates fraudulent transactions from legitimate ones.
+        </p>
+
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>XGBoost Feature Importance</h3>
+                <div id="chart-importance"></div>
+                <p class="chart-explanation">
+                    Values are <strong>XGBoost gain-based importances</strong> from the deployed pipeline in
+                    <code>model.joblib</code>: each bar is that encoded column's share of <em>total</em> gain
+                    (roughly 1,400 post-encoding columns sum to 100%). The strongest individual inputs are
+                    <strong>amount</strong> (~5.4%), <strong>amount deviation from the customer's mean</strong>
+                    (~3.6%), and <strong>hour</strong> (~2.1%). Individual category levels also rank highly;
+                    summed over all levels, high-cardinality fields <strong>job</strong> (~38%) and
+                    <strong>merchant</strong> (~31%) contribute heavily, plus <strong>category</strong> (~12%)
+                    overall—matching the preprocessors in <code>modelling/preprocessing.py</code>.
+                </p>
+            </div>
+
+            <div class="chart-card">
+                <h3>Transaction Amounts: Fraud vs. Legitimate</h3>
+                <div id="chart-amounts"></div>
+                <p class="chart-explanation">
+                    Figures come from the full cleaned dataset (~3.48M rows). The average fraud
+                    transaction is <strong>$538</strong> compared with about <strong>$69</strong> for legitimate
+                    ones. Medians are <strong>$437</strong> (fraud) vs <strong>$44</strong> (legit). The fourth
+                    bar uses the <strong>99th percentile</strong> (~$486 legit vs ~$1,170 fraud) so the chart is
+                    not skewed by extreme legitimate outliers (max legit ~$53k in the data).
+                </p>
+            </div>
+        </div>
+
+        <div class="info-card" style="margin-top: 25px;">
+            <h3>Key Diagnostic Findings</h3>
+            <div class="findings-grid">
+                <div class="finding">
+                    <h4>High-Amount Transactions</h4>
+                    <p>
+                        Fraudsters tend to make large purchases to maximize value before a card is cancelled.
+                        Transactions above $400 are significantly more likely to be fraudulent than those under $100.
+                    </p>
+                </div>
+                <div class="finding">
+                    <h4>Unusual Spending for the Customer</h4>
+                    <p>
+                        The pipeline uses <strong>amt_dev_from_mean</strong> (<code>amt - cust_amt_mean</code>
+                        from <code>modelling/features.py</code>). Large positive deviations align with higher
+                        fraud risk in the model.
+                    </p>
+                </div>
+                <div class="finding">
+                    <h4>Late-Night Activity</h4>
+                    <p>
+                        Transactions between 10 PM and 3 AM are 10x to 25x more likely to be fraudulent than
+                        daytime transactions. Cardholders are typically asleep and unable to detect and respond to unauthorized use.
+                    </p>
+                </div>
+                <div class="finding">
+                    <h4>Online vs. In-Person</h4>
+                    <p>
+                        Online categories (shopping_net, misc_net) show fraud rates 3x to 12x higher than
+                        in-person categories. The lack of physical card verification makes card-not-present
+                        fraud far easier for criminals.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Top split-level importances from model.joblib (each value is % of total gain; all features sum to 100%)
+        const features = [
+            "amt",
+            "amt dev from mean",
+            "hour",
+            "category: gas_transport",
+            "cust amt mean",
+            "category: shopping_net",
+            "category: grocery_pos",
+            "category: food_dining",
+            "category: travel",
+            "category: shopping_pos",
+            "category: personal_care",
+            "category: entertainment",
+        ];
+        const importances = [5.36, 3.56, 2.09, 1.56, 1.22, 1.18, 1.14, 1.07, 1.05, 1.02, 0.99, 0.76];
+        const colors = importances.map(v => v >= 3 ? '#dc2626' : v >= 1.15 ? '#f59e0b' : '#42698e');
+
+        Plotly.newPlot('chart-importance', [{
+            y: features.slice().reverse(),
+            x: importances.slice().reverse(),
+            type: 'bar',
+            orientation: 'h',
+            marker: { color: colors.slice().reverse() },
+            hovertemplate: '%{y}: %{x:.2f}% of total<extra></extra>'
+        }], {
+            xaxis: { title: '% of total feature importance', gridcolor: '#e3e8ee' },
+            margin: { l: 200, t: 20 },
+            plot_bgcolor: 'white',
+            height: 450
+        }, { responsive: true });
+
+        Plotly.newPlot('chart-amounts', [{
+            x: ['Median', 'Mean', '75th Pctl', '99th Pctl'],
+            y: [44.31, 68.60, 81.53, 485.97],
+            name: 'Legitimate',
+            type: 'bar',
+            marker: { color: '#42698e' },
+            hovertemplate: 'Legitimate<br>%{x}: $%{y:.2f}<extra></extra>'
+        }, {
+            x: ['Median', 'Mean', '75th Pctl', '99th Pctl'],
+            y: [437.08, 537.98, 915.29, 1170.21],
+            name: 'Fraudulent',
+            type: 'bar',
+            marker: { color: '#dc2626' },
+            hovertemplate: 'Fraudulent<br>%{x}: $%{y:.2f}<extra></extra>'
+        }], {
+            barmode: 'group',
+            yaxis: { title: 'Transaction Amount ($)', gridcolor: '#e3e8ee' },
+            margin: { t: 20 },
+            plot_bgcolor: 'white',
+            height: 400,
+            legend: { x: 0.02, y: 0.98 }
+        }, { responsive: true });
+    </script>
+</body>
+
+</html>
